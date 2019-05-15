@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.BorderPane?>
+
+<BorderPane xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controleur.ControleurMap">
+   <center>
+      <Pane fx:id="mainPane" focusTraversable="true" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TilePane fx:id="tilePaneMap" focusTraversable="true" prefHeight="200.0" prefWidth="200.0" />
+            <Pane fx:id="persoPane" focusTraversable="true" prefHeight="200.0" prefWidth="200.0" />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>
