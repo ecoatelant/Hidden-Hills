@@ -27,7 +27,7 @@ public class ControleurMap implements Initializable {
 
     private Personnage p = new Personnage();
   
-    boolean running, goNorth, goSouth, goEast, goWest;
+    boolean running, goNorth, goSouth, goEast, goWest , jump;
 
     @FXML
     private ImageView imgVi;
@@ -50,17 +50,20 @@ public class ControleurMap implements Initializable {
           		goEast  = true;
           		handle('E');
           		break;
+          	case SPACE :
+          		jump = true;
+          		handle('J');
           	default:
           		break;
   		}
   	}
-  	
   	public void handleReleased(KeyEvent e) {
   		switch (e.getCode()) {
   			case Z:  goNorth = false; break;
   			case S:  goSouth = false; break;
           	case Q:  goWest  = false; break;
           	case D:  goEast  = false; break;
+          	case SPACE: jump = false;break;
           	default: break;
   		}
   	}
@@ -72,6 +75,7 @@ public class ControleurMap implements Initializable {
         if (direction=='S') dy += 5;
         if (direction=='E') dx += 5;
         if (direction=='W') dx -= 5;
+        if (direction=='J') dy -= 20;
         
         p.move(dx, dy);
     }
