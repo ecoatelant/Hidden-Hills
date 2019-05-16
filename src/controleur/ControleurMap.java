@@ -63,7 +63,7 @@ public class ControleurMap implements Initializable {
   			case S:  goSouth = false; break;
           	case Q:  goWest  = false; break;
           	case D:  goEast  = false; break;
-          	case SPACE: jump = false; break;
+          	case SPACE: jump = false;break;
           	default: break;
   		}
   	}
@@ -75,14 +75,13 @@ public class ControleurMap implements Initializable {
         if (direction=='S') dy += 5;
         if (direction=='E') dx += 5;
         if (direction=='W') dx -= 5;
-        if (direction=='J') dy -= 34;
+        if (direction=='J') dy -= 20;
         
         p.move(dx, dy);
     }
       
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		//Affichage de la map
 		map = new Map();
         for(int i = 0; i < this.map.getMap().size(); i++) {
             Image img = new Image (this.map.getBlock(i).getuRI());
@@ -93,8 +92,7 @@ public class ControleurMap implements Initializable {
 			imgV.setTranslateY(0);
 			tilePaneMap.getChildren().add(imgV);
         }
-        //Deplacement personnage
-        imgVi = new ImageView ("file:Hidden Hills/src/img/persoMod.png");
+        imgVi = new ImageView ("file:src/img/persoMod.png");
 		imgVi.translateXProperty().bind(this.p.xProperty());
 		imgVi.translateYProperty().bind(this.p.yProperty());
 		imgVi.setFocusTraversable(true);
