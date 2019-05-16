@@ -3,13 +3,16 @@ package modeles;
 public class Block {
 	private String id;
 	private String uRI;
+	private boolean collision;
 
 	public Block (String id) {
         this.id = id;
         String chemin = "file:src/img/";
+        this.collision=true;
         switch (id) {
             case "-1":
                 chemin = chemin + "air.png";
+                this.collision=false;
                 break;
             case "0":
                 chemin = chemin + "charcoal.png";
@@ -28,17 +31,21 @@ public class Block {
                 break;
             case "3":
                 chemin = chemin + "wood.jpg";
+                this.collision=false;
                 break;
             case "2":
                 chemin = chemin + "four.gif";
+                this.collision=false;
                 break;
             default:
                 chemin = chemin + "air.png";
+                this.collision=false;
                 break;
         }
         this.uRI = chemin;
     }
 
+	//Getter
 	public String getId () {
 		return this.id;
 	}
@@ -48,6 +55,8 @@ public class Block {
 	}
 	
 	
-	
+	public boolean getCollision() {
+		return this.collision;
+	}
 	
 }

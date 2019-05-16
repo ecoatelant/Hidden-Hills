@@ -25,6 +25,7 @@ public class Map {
 						String[] parts= file.readLine().split(",");
 						for(int i=0; i<parts.length;i++) {
 						this.map.add(new Block(parts[i]));
+						
 						}
 					}catch (IOException e) {
 						e.printStackTrace();
