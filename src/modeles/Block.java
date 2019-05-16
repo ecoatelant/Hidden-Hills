@@ -6,7 +6,7 @@ public class Block {
 
 	public Block (String id) {
         this.id = id;
-        String chemin = "file:Hidden Hills/src/img/";
+        String chemin = "file:src/img/";
         switch (id) {
             case "-1":
                 chemin = chemin + "air.png";
