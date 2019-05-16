@@ -54,9 +54,9 @@ public class Personnage {
 	}
 	
 	
-	//Dans la map, il y a 40 blocs de largeur et 60 blocs de hauteur
+/*	//Dans la map, il y a 40 blocs de largeur et 60 blocs de hauteur
 	public int getIndice() {
 		return (this.xProperty.get()*40)
 	}
-	
+*/	
 }
