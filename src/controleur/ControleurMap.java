@@ -73,8 +73,14 @@ public class ControleurMap implements Initializable {
 
         if (direction=='N') dy -= 5;
         if (direction=='S') dy += 5;
-        if (direction=='E') dx += 5;
-        if (direction=='W') dx -= 5;
+        if (direction=='E') {
+        	dx += 5;
+        	imgVi.setImage(new Image("file:src/img/perso-right.png"));
+        }
+        if (direction=='W') {
+        	dx -= 5;
+        	imgVi.setImage(new Image("file:src/img/persoMod.png"));
+        }
         if (direction=='J') dy -= 20;
         
         p.move(dx, dy);
