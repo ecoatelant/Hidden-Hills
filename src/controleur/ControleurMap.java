@@ -72,7 +72,7 @@ public class ControleurMap implements Initializable {
         if (direction=='S') dy += 5;
         if (direction=='E') dx += 5;
         if (direction=='W') dx -= 5;
-          
+        
         p.move(dx, dy);
     }
       
@@ -91,10 +91,10 @@ public class ControleurMap implements Initializable {
         imgVi = new ImageView ("file:Hidden Hills/src/img/persoMod.png");
 		imgVi.translateXProperty().bind(this.p.xProperty());
 		imgVi.translateYProperty().bind(this.p.yProperty());
+		imgVi.setFocusTraversable(true);
 		persoPane.getChildren().add(imgVi);
-		persoPane.requestFocus();
 		persoPane.setOnKeyPressed(e -> handlePressed(e));
 		persoPane.setOnKeyReleased(e -> handleReleased(e));
-		//persoPane.setOpacity(0);
+		
 	}
 }

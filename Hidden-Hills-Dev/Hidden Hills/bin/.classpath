@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<classpath>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry excluding="Hidden Hills/src/" kind="src" path=""/>
-	<classpathentry kind="src" path="Hidden Hills/src"/>
-	<classpathentry kind="output" path="Hidden Hills/bin"/>
-</classpath>
