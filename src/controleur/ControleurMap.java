@@ -92,7 +92,7 @@ public class ControleurMap implements Initializable {
 			imgV.setTranslateY(-500);
 			tilePaneMap.getChildren().add(imgV);
         }
-        imgVi = new ImageView ("file:Hidden Hills/src/img/persoMod.png");
+        imgVi = new ImageView ("file:src/img/persoMod.png");
 		imgVi.translateXProperty().bind(this.p.xProperty());
 		imgVi.translateYProperty().bind(this.p.yProperty());
 		imgVi.setFocusTraversable(true);

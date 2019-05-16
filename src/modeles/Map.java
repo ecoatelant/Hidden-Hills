@@ -17,7 +17,7 @@ public class Map {
 		this.map = FXCollections.observableArrayList();
 		BufferedReader file;
 		try {
-			file = new BufferedReader(new FileReader("Hidden Hills/src/Map.csv"));
+			file = new BufferedReader(new FileReader("src/Map.csv"));
 			try {
 				while (file.ready()) {
 					try {
