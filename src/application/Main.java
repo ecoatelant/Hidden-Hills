@@ -13,7 +13,7 @@ public class Main extends Application {
 		try {
 			primaryStage.setTitle("Hidden Hills");
 			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("../vue/Sample.fxml"));
-			Scene scene = new Scene(root,60*32,50*32);
+			Scene scene = new Scene(root,80*32,90*32);
 			scene.getStylesheets().add(getClass().getResource("../vue/application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			primaryStage.show();
