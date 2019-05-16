@@ -49,7 +49,7 @@ public class ControleurMap implements Initializable {
           	case D:  
           		goEast  = true;
           		handle('E');
-          		break;
+          		break;      	
           	default:
           		break;
   		}
@@ -70,8 +70,15 @@ public class ControleurMap implements Initializable {
 
         if (direction=='N') dy -= 5;
         if (direction=='S') dy += 5;
-        if (direction=='E') dx += 5;
-        if (direction=='W') dx -= 5;
+        if (direction=='E') {
+        	dx += 5;
+        	imgVi.setImage(new Image("file:src/img/perso-right.png"));
+        }
+        
+        if (direction=='W') {
+        	dx -= 5;
+        	imgVi.setImage(new Image("file:src/img/persoMod.png"));
+        }
         
         p.move(dx, dy);
     }
@@ -88,7 +95,7 @@ public class ControleurMap implements Initializable {
 			imgV.setTranslateY(-500);
 			tilePaneMap.getChildren().add(imgV);
         }
-        imgVi = new ImageView ("file:Hidden Hills/src/img/persoMod.png");
+        imgVi = new ImageView ("file:src/img/persoMod.png");
 		imgVi.translateXProperty().bind(this.p.xProperty());
 		imgVi.translateYProperty().bind(this.p.yProperty());
 		imgVi.setFocusTraversable(true);
