@@ -62,9 +62,15 @@ public class Personnage {
 	}
 	
 	
+<<<<<<< HEAD
 	//Dans la map, il y a 40 blocs de largeur et 60 blocs de hauteur
 	public int calculIndice(double x, double y) {
 		return (int) ((y*40)+x);
+=======
+/*	//Dans la map, il y a 40 blocs de largeur et 60 blocs de hauteur
+	public int getIndice() {
+		return (this.xProperty.get()*40)
+>>>>>>> d9894a8490f88379faf21322a7de44c53c5dba4d
 	}
-	
+*/	
 }

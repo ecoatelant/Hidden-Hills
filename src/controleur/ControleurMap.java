@@ -73,8 +73,14 @@ public class ControleurMap implements Initializable {
 
         if (direction=='N') dy -= 5;
         if (direction=='S') dy += 5;
-        if (direction=='E') dx += 5;
-        if (direction=='W') dx -= 5;
+        if (direction=='E') {
+        	dx += 5;
+        	imgVi.setImage(new Image("file:src/img/perso-right.png"));
+        }
+        if (direction=='W') {
+        	dx -= 5;
+        	imgVi.setImage(new Image("file:src/img/persoMod.png"));
+        }
         if (direction=='J') dy -= 20;
         
         p.move(dx, dy);
@@ -89,7 +95,7 @@ public class ControleurMap implements Initializable {
 			imgV.setFitHeight(32);
 			imgV.setFitWidth(32);
 			imgV.setTranslateX(0);
-			imgV.setTranslateY(-500);
+			imgV.setTranslateY(0);
 			tilePaneMap.getChildren().add(imgV);
         }
         imgVi = new ImageView ("file:src/img/persoMod.png");
