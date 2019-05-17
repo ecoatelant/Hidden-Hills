@@ -7,14 +7,14 @@ public class Block {
 
 	public Block (String id) {
         this.id = id;
-        String chemin = "file:src/img/";
+        String chemin = "file:Hidden Hills/src/img/";
         this.collision=true;
         switch (id) {
             case "-1":
                 chemin = chemin + "air.png";
                 this.collision=false;
                 break;
-            case "0":
+            case "7":
                 chemin = chemin + "charcoal.png";
                 break;
             case "6":
@@ -26,10 +26,10 @@ public class Block {
             case "1":
                 chemin = chemin + "grass.jpg";
                 break;
-            case "4":
+            case "14":
                 chemin = chemin + "stone.jpg";
                 break;
-            case "3":
+            case "":
                 chemin = chemin + "wood.jpg";
                 this.collision=false;
                 break;

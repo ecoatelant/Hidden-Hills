@@ -17,7 +17,7 @@ public class Map {
 		this.map = FXCollections.observableArrayList();
 		BufferedReader file;
 		try {
-			file = new BufferedReader(new FileReader("src/Map.csv"));
+			file = new BufferedReader(new FileReader("Hidden Hills/src/Map2.csv"));
 			try {
 				while (file.ready()) {
 					try {
@@ -42,7 +42,7 @@ public class Map {
 	public void sauvegarderMap() {
         try {
         	//Dans le fichier csv, on place les ids des blocks et on place une virgule.
-            File file = new File("Hidden Hills/src/vue/Map.csv");
+            File file = new File("Hidden Hills/src/vue/Map2.csv");
             FileWriter fileWriter = new FileWriter(file, false);
             String changements = "";
             int i = 1;
