@@ -86,10 +86,8 @@ public class ControleurMap implements Initializable {
         p.move(dx, dy);
     }
       
-	@Override
-	public void initialize(URL location, ResourceBundle resources) {
-		map = new Map();
-        for(int i = 0; i < this.map.getMap().size(); i++) {
+    public void créationMap () {
+    	for(int i = 0; i < this.map.getMap().size(); i++) {
             Image img = new Image (this.map.getBlock(i).getuRI());
 			ImageView imgV = new ImageView (img);
 			imgV.setFitHeight(32);
@@ -98,13 +96,22 @@ public class ControleurMap implements Initializable {
 			imgV.setTranslateY(0);
 			tilePaneMap.getChildren().add(imgV);
         }
-        imgVi = new ImageView ("file:src/img/persoMod.png");
+    }
+    
+    public void déplacementPersonnage () {
+    	imgVi = new ImageView ("file:src/img/persoMod.png");
 		imgVi.translateXProperty().bind(this.p.xProperty());
 		imgVi.translateYProperty().bind(this.p.yProperty());
 		imgVi.setFocusTraversable(true);
 		persoPane.getChildren().add(imgVi);
 		persoPane.setOnKeyPressed(e -> handlePressed(e));
 		persoPane.setOnKeyReleased(e -> handleReleased(e));
-		
+    }
+    
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		map = new Map();
+		créationMap();
+		déplacementPersonnage();
 	}
 }
