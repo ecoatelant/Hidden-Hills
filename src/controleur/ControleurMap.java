@@ -14,7 +14,7 @@ import javafx.fxml.Initializable;
 
 public class ControleurMap implements Initializable {
 
-    private Map map;
+    private Map map = new Map();;
     
     @FXML
     private Pane mainPane;
@@ -75,15 +75,18 @@ public class ControleurMap implements Initializable {
         if (direction=='S') dy += 5;
         if (direction=='E') {
         	dx += 5;
-        	imgVi.setImage(new Image("file:Hidden Hills/src/img/perso-right.png"));
+        	imgVi.setImage(new Image("file:src/img/perso-right.png"));
         }
         if (direction=='W') {
         	dx -= 5;
-        	imgVi.setImage(new Image("file:Hidden Hills/src/img/persoMod.png"));
+        	imgVi.setImage(new Image("file:src/img/persoMod.png"));
         }
         if (direction=='J') dy -= 20;
         
-        p.move(dx, dy);
+        if(!p.collision(map, dx, dy)) {
+        	p.move(dx, dy);
+        }
+        
     }
       
     public void créationMap () {
@@ -99,7 +102,7 @@ public class ControleurMap implements Initializable {
     }
     
     public void déplacementPersonnage () {
-    	imgVi = new ImageView ("file:Hidden Hills/src/img/persoMod.png");
+    	imgVi = new ImageView ("file:src/img/persoMod.png");
 		imgVi.translateXProperty().bind(this.p.xProperty());
 		imgVi.translateYProperty().bind(this.p.yProperty());
 		imgVi.setFocusTraversable(true);
@@ -110,7 +113,6 @@ public class ControleurMap implements Initializable {
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		map = new Map();
 		créationMap();
 		déplacementPersonnage();
 	}

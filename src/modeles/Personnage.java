@@ -52,8 +52,7 @@ public class Personnage {
 		this.yProperty.set(this.yProperty.get() + newY);
 	}
 	
-	public boolean collision(double newX, double newY) {
-		Map map = new Map();
+	public boolean collision(Map map,double newX, double newY) {
 		return map.getBlock(calculIndice((this.getX()+newX),(this.getY()+newY))).getCollision();
 	}
 	
@@ -65,9 +64,9 @@ public class Personnage {
 	public int calculIndice(double x, double y) {
 		return (int) ((y*40)+x);
 	}
-/*	//Dans la map, il y a 40 blocs de largeur et 60 blocs de hauteur
+	//Dans la map, il y a 40 blocs de largeur et 60 blocs de hauteur
 	public int getIndice() {
-		return (this.xProperty.get()*40)
+		return (int) (this.xProperty.get()*40);
 	}
-*/	
+	
 }
