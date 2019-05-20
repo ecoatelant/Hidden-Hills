@@ -5,6 +5,8 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import modeles.Personnage;
 import modeles.Map;
 import java.net.URL;
@@ -31,6 +33,9 @@ public class ControleurMap implements Initializable {
 
     @FXML
     private ImageView imgVi;
+    
+    @FXML
+    private ImageView imgV;
 
   	public void handlePressed(KeyEvent e) {
   		switch (e.getCode()) {
@@ -89,7 +94,7 @@ public class ControleurMap implements Initializable {
     public void créationMap () {
     	for(int i = 0; i < this.map.getMap().size(); i++) {
             Image img = new Image (this.map.getBlock(i).getuRI());
-			ImageView imgV = new ImageView (img);
+			imgV = new ImageView (img);
 			imgV.setFitHeight(32);
 			imgV.setFitWidth(32);
 			imgV.setTranslateX(0);
@@ -99,7 +104,7 @@ public class ControleurMap implements Initializable {
     }
     
     public void déplacementPersonnage () {
-    	imgVi = new ImageView ("file:Hidden Hills/src/img/persoMod.png");
+    	imgVi = new ImageView (new Image("file:Hidden Hills/src/img/persoMod.png"));
 		imgVi.translateXProperty().bind(this.p.xProperty());
 		imgVi.translateYProperty().bind(this.p.yProperty());
 		imgVi.setFocusTraversable(true);
@@ -108,10 +113,24 @@ public class ControleurMap implements Initializable {
 		persoPane.setOnKeyReleased(e -> handleReleased(e));
     }
     
+    public void gestionCollision () {
+    	Rectangle test = new Rectangle(26,46);
+    	test.setFill(Color.BLACK);
+		test.translateXProperty().bind(this.p.xProperty());
+		test.translateYProperty().bind(this.p.yProperty());
+		persoPane.getChildren().add(test);
+		for (int i =0;i<this.map.getMap().size();i++) {
+			if (test.getBoundsInParent().intersects(tilePaneMap.getChildren().get(i).getBoundsInParent())) {
+				System.out.println("tg");
+			}
+		}
+    }
+    
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		map = new Map();
 		créationMap();
 		déplacementPersonnage();
+		gestionCollision();
 	}
 }
