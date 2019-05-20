@@ -7,6 +7,7 @@ public class Block {
 
 	public Block (String id) {
         this.id = id;
+<<<<<<< HEAD
         String chemin = "file:src/img/";
         this.collision=true;
         switch (id) {
@@ -15,6 +16,16 @@ public class Block {
                 this.collision=false;
                 break; 
             case "0":
+=======
+        String chemin = "file:Hidden Hills/src/img/";
+        this.collision=true;
+        switch (id) {
+            case "-1":
+                chemin = chemin + "air.png";
+                this.collision=false;
+                break;
+            case "7":
+>>>>>>> 4a92afd3a33ea0cffa49d6057e63bacc9c86f521
                 chemin = chemin + "charcoal.png";
                 break;
             case "6":
@@ -26,10 +37,10 @@ public class Block {
             case "1":
                 chemin = chemin + "grass.jpg";
                 break;
-            case "4":
+            case "14":
                 chemin = chemin + "stone.jpg";
                 break;
-            case "3":
+            case "":
                 chemin = chemin + "wood.jpg";
                 this.collision=false;
                 break;
