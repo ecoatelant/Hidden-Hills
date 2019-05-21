@@ -23,7 +23,7 @@ public class Block {
                 break;
             case "5":
                 chemin = chemin + "titanium.png";
-                this.collision=true;
+                //this.collision=true;
                 break;
             case "1":
                 chemin = chemin + "grass.jpg";
