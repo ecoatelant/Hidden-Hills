@@ -10,7 +10,7 @@ public class Block {
         String chemin = "file:src/img/";
         this.collision=false;
         switch (id) {
-            case "-1":
+            case "3":
                 chemin = chemin + "air.png";
                 break;
             case "7":

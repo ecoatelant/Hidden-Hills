@@ -1,5 +1,7 @@
 package modeles;
 
+import java.awt.Rectangle;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
@@ -52,21 +54,8 @@ public class Personnage {
 		this.yProperty.set(this.yProperty.get() + newY);
 	}
 	
-	public boolean collision(Map map,double newX, double newY) {
-		return map.getBlock(calculIndice((this.getX()+newX),(this.getY()+newY))).getCollision();
-	}
-	
 	public boolean mort() {
 		return this.pv<=0;
-	}
-	
-	//Dans la map, il y a 40 blocs de largeur et 60 blocs de hauteur
-	public int calculIndice(double x, double y) {
-		return (int) ((y*40)+x);
-	}
-	//Dans la map, il y a 40 blocs de largeur et 60 blocs de hauteur
-	public int getIndice() {
-		return (int) (this.xProperty.get()*40);
 	}
 	
 }

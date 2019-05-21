@@ -14,7 +14,7 @@ import javafx.fxml.Initializable;
 
 public class ControleurMap implements Initializable {
 
-    private Map map = new Map();;
+    private Map map = new Map();
     
     @FXML
     private Pane mainPane;
@@ -83,12 +83,32 @@ public class ControleurMap implements Initializable {
         }
         if (direction=='J') dy -= 20;
         
-        if(!p.collision(map, dx, dy)) {
+        if(!collision(dx, dy)) {
         	p.move(dx, dy);
+        }
+        else {
+        	System.out.println("collision");
         }
         
     }
-      
+    
+	public boolean collision(int newX, int newY) {
+		return map.getBlock(calculIndice((p.getX()+newX),(p.getY()+newY))).getCollision();
+	}
+	
+	//Dans la map, il y a 40 blocs de hauteur et 60 blocs de largeur
+	public int calculIndice(double x, double y) {
+		int ind;
+		if(y == 0) {
+			ind= (int) x;
+		}
+		else {
+			ind = (int) ((y*59)+x+1);
+		}
+		System.out.println(ind);
+		return ind;
+	}
+    
     public void créationMap () {
     	for(int i = 0; i < this.map.getMap().size(); i++) {
             Image img = new Image (this.map.getBlock(i).getuRI());
