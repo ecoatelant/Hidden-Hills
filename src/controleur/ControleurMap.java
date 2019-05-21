@@ -115,14 +115,14 @@ public class ControleurMap implements Initializable {
     
     public void gestionCollision () {
     	Rectangle test = new Rectangle(26,46);
+    	Rectangle test2 = new Rectangle (32,32);
+    	test2.setFill(Color.RED);
     	test.setFill(Color.BLACK);
+    	persoPane.getChildren().addAll(test,test2);
 		test.translateXProperty().bind(this.p.xProperty());
 		test.translateYProperty().bind(this.p.yProperty());
-		persoPane.getChildren().add(test);
-		for (int i =0;i<this.map.getMap().size();i++) {
-			if (test.getBoundsInParent().intersects(tilePaneMap.getChildren().get(i).getBoundsInParent())) {
-				System.out.println("tg");
-			}
+		if ()) {
+			System.out.println("colision");
 		}
     }
     

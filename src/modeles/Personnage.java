@@ -61,6 +61,14 @@ public class Personnage {
 		return this.pv<=0;
 	}
 	
+	public void setX (double x) {
+		this.xProperty.set(x);
+	}
+	
+	public void setY (double y) {
+		this.yProperty.set(y);
+	}
+ 	
 	//Dans la map, il y a 40 blocs de largeur et 60 blocs de hauteur
 	public int calculIndice(double x, double y) {
 		return (int) ((y*40)+x);
