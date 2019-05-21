@@ -76,14 +76,14 @@ public class ControleurMap implements Initializable {
     public void handle(char direction) {
         int dx = 0, dy = 0;
 
-        if (direction=='N') dy -= 5;
-        if (direction=='S') dy += 5;
+        if (direction=='N') dy -= 8;
+        if (direction=='S') dy += 8;
         if (direction=='E') {
-        	dx += 5;
+        	dx += 8;
         	imgVi.setImage(new Image("file:src/img/perso-right.png"));
         }
         if (direction=='W') {
-        	dx -= 5;
+        	dx -= 8;
         	imgVi.setImage(new Image("file:src/img/persoMod.png"));
         }
         if (direction=='J') dy -= 20;
@@ -98,18 +98,22 @@ public class ControleurMap implements Initializable {
     }
     
 	public boolean collision(int newX, int newY) {
+		/*for(int i = 0 ; i<this.map.getMap().size() ; i++) {
+			
+		}*/
 		return map.getBlock(calculIndice((p.getX()+newX),(p.getY()+newY))).getCollision();
 	}
 	
 	//Dans la map, il y a 40 blocs de hauteur et 60 blocs de largeur
 	public int calculIndice(double x, double y) {
 		int ind;
-		if(y == 0) {
-			ind= (int) x;
+		if(y < 32) {
+			ind= (int) x/32;
 		}
 		else {
-			ind = (int) ((y*59)+x+1);
+			ind = (int) (((int)(y/32))*60+(x/32));
 		}
+		System.out.println(x+" , " + y);
 		System.out.println(ind);
 		return ind;
 	}
@@ -127,11 +131,8 @@ public class ControleurMap implements Initializable {
     }
     
     public void déplacementPersonnage () {
-<<<<<<< HEAD
     	imgVi = new ImageView ("file:src/img/persoMod.png");
-=======
     	imgVi = new ImageView (new Image("file:Hidden Hills/src/img/persoMod.png"));
->>>>>>> 234c68f164ea75a6d5904802a58534a6df714892
 		imgVi.translateXProperty().bind(this.p.xProperty());
 		imgVi.translateYProperty().bind(this.p.yProperty());
 		imgVi.setFocusTraversable(true);
@@ -140,7 +141,7 @@ public class ControleurMap implements Initializable {
 		persoPane.setOnKeyReleased(e -> handleReleased(e));
     }
     
-    public void gestionCollision () {
+/*    public void gestionCollision () {
     	Rectangle test = new Rectangle(26,46);
     	test.setFill(Color.BLACK);
 		test.translateXProperty().bind(this.p.xProperty());
@@ -151,12 +152,12 @@ public class ControleurMap implements Initializable {
 				System.out.println("tg");
 			}
 		}
-    }
+    }*/
     
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		créationMap();
 		déplacementPersonnage();
-		gestionCollision();
+		//gestionCollision();
 	}
 }

@@ -15,8 +15,8 @@ public class Personnage {
 	//Constructeur
 	public Personnage() {
 		this.pv=100;
-		this.xProperty = new SimpleDoubleProperty(700);
-		this.yProperty = new SimpleDoubleProperty(500);
+		this.xProperty = new SimpleDoubleProperty(0);
+		this.yProperty = new SimpleDoubleProperty(0);
 	}
 	
 	//Getter
