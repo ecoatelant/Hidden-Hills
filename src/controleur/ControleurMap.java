@@ -22,13 +22,6 @@ public class ControleurMap implements Initializable {
     final static int BLOC_HAUTEUR = 40;
     final static int TAILLE_BLOC = 32; //Les blocs sont carrés en 32 pixels
 
-	private long lastUpdateTime;
-    private Map map;
-	private Timeline gameLoop;
-	private int temps;
-    private AnimationTimer timer;
-    private boolean south,east,west,north,jump;
-
     @FXML
     private Pane mainPane;
 
@@ -37,21 +30,30 @@ public class ControleurMap implements Initializable {
 
     @FXML
     private Pane persoPane;
-
+    
+    @FXML
+    private ImageView imgVPerso;
 
     private Personnage p = new Personnage();
     
+<<<<<<< HEAD
     private Rectangle aabb = new Rectangle(32,64);
+=======
+    private Rectangle rectangleColision = new Rectangle(32,64);
+>>>>>>> 49f6db38a31d9178fcc0a7770dc01e809c3f226c
     
-    @FXML
-    private ImageView imgVi;
+    private long lastUpdateTime;
+	
+    private Map map;
     
-    @FXML
-    private ImageView imgV;
- 
-
+	private Timeline gameLoop;
+	
+	//private int temps;
+	
+    private AnimationTimer timer;
     
-
+    private boolean south,east,west,north;
+    
   	public void handlePressed(KeyEvent e) {
   		switch (e.getCode()) {
           	case Z:  
@@ -67,7 +69,11 @@ public class ControleurMap implements Initializable {
           		east=true;
           		break;
           	case SPACE :
+<<<<<<< HEAD
           		jump = true;
+=======
+          		handle('J');
+>>>>>>> 49f6db38a31d9178fcc0a7770dc01e809c3f226c
           	default:
           		break;
   		}
@@ -79,17 +85,45 @@ public class ControleurMap implements Initializable {
   			case S:  south = false; break;
           	case Q:  west  = false; break;
           	case D:  east  = false; break;
-          	case SPACE: jump = false;break;
+          	case SPACE: break;
           	default: break;
   		}
   	}
+<<<<<<< HEAD
     
+=======
+
+    public void handle(char direction) {
+        int dx = 0, dy = 0;
+        if (direction=='N') dy -= 8;
+        if (direction=='S') dy += 8;
+        if (direction=='E') {
+        	dx += 8;
+        	imgVPerso.setImage(new Image("file:src/img/perso-right.png"));
+        }
+        if (direction=='W') {
+        	dx -= 8;
+        	imgVPerso.setImage(new Image("file:src/img/persoMod.png"));
+        }
+        if (direction=='J') dy -= 20;
+        
+        if(!colision(dx, dy)) {
+        	p.move(dx, dy);
+        }
+        else {
+        	System.out.println("collision");
+        }
+        
+    }
+
+>>>>>>> 49f6db38a31d9178fcc0a7770dc01e809c3f226c
 	public boolean colision(int newX, int newY) {
 		//Regard angle gauche haut
-		if(map.getBlock(calculationIndex((aabb.getTranslateX()+newX),(aabb.getTranslateY()+newY))).getCollision()) {
+		if(map.getBlock(calculationIndex((rectangleColision.getTranslateX()+newX),(rectangleColision.getTranslateY()+newY))).getCollision()) {
 			return true;
 		}
 		//Regard angle gauche bas
+<<<<<<< HEAD
 		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX),(aabb.getTranslateY()+newY)+56)).getCollision()) {
 			return true;
 		}
@@ -99,6 +133,17 @@ public class ControleurMap implements Initializable {
 		}
 		//Regard angle droite bas
 		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX)+24,(aabb.getTranslateY()+newY)+56)).getCollision()) {
+=======
+		else if (map.getBlock(calculationIndex((rectangleColision.getTranslateX()+newX),(rectangleColision.getTranslateY()+newY)+46)).getCollision()) {
+			return true;
+		}
+		//Regard angle droite haut
+		else if (map.getBlock(calculationIndex((rectangleColision.getTranslateX()+newX)+26,(rectangleColision.getTranslateY()+newY))).getCollision()) {
+			return true;
+		}
+		//Regard angle droite bas
+		else if (map.getBlock(calculationIndex((rectangleColision.getTranslateX()+newX)+26,(rectangleColision.getTranslateY()+newY)+46)).getCollision()) {
+>>>>>>> 49f6db38a31d9178fcc0a7770dc01e809c3f226c
 			return true;
 		}
 		//return
@@ -109,50 +154,54 @@ public class ControleurMap implements Initializable {
 	
 	//Dans la map, il y a 40 blocs de hauteur et 60 blocs de largeur
 	public int calculationIndex(double x, double y) {
+<<<<<<< HEAD
 		return (int) (((int)(y/TAILLE_BLOC))*BLOC_LARGEUR+(x/TAILLE_BLOC));
+=======
+		int ind;
+		ind = (int) (((int)(y/TAILLE_BLOC))*BLOC_LARGEUR+(x/TAILLE_BLOC));
+		//Vérification indice par rapport aux x et y
+		return ind;
+>>>>>>> 49f6db38a31d9178fcc0a7770dc01e809c3f226c
 	}
     
     public void handlerColision () {
-    	aabb.setFill(Color.BLACK);
-    	aabb.setOpacity(0.2);
-		aabb.translateXProperty().bind(this.p.xProperty());
-		aabb.translateYProperty().bind(this.p.yProperty());
-		persoPane.getChildren().add(aabb);
+    	rectangleColision.setFill(Color.BLACK);
+    	rectangleColision.setOpacity(0.0);
+		rectangleColision.translateXProperty().bind(this.p.xProperty());
+		rectangleColision.translateYProperty().bind(this.p.yProperty());
+		persoPane.getChildren().add(rectangleColision);
     }
      
 	public void createMap() {
 		map = new Map();
 		for(int j=0; j<map.getMapHeight()-1;j++) {
 		        for(int i = 0; i < map.getMapWidth();i++) {
-			            Image img = new Image(this.map.getBlock(i+(j*60)).getuRI());
-						ImageView imgV=new ImageView (img);
-						imgV.setFitHeight(32);
-						imgV.setFitWidth(32);
-						tilePaneMap.getChildren().add(imgV);
-		        	
+			       Image img = new Image(this.map.getBlock(i+(j*60)).getuRI());
+			       ImageView imgV = new ImageView (img);
+			       imgV.setFitHeight(32);
+			       imgV.setFitWidth(32);
+			       tilePaneMap.getChildren().add(imgV);
 		        }
 			}
 	}
 	public void createPerso() {
-		  	imgVi = new ImageView ("file:src/img/persoMod.png");
-		  	imgVi.translateXProperty().bind(this.p.xProperty());
-			imgVi.translateYProperty().bind(this.p.yProperty());
-			imgVi.setFocusTraversable(true);
-			imgVi.setFitHeight(64);
-			imgVi.setFitWidth(32);
-			persoPane.getChildren().add(imgVi);
-			persoPane.setOnKeyPressed(e -> handlePressed(e));
-			persoPane.setOnKeyReleased(e -> handleReleased(e));
-			
-
+		imgVPerso = new ImageView ("file:src/img/persoMod.png");
+		imgVPerso.translateXProperty().bind(this.p.xProperty());
+		imgVPerso.translateYProperty().bind(this.p.yProperty());
+		imgVPerso.setFocusTraversable(true);
+		imgVPerso.setFitHeight(64);
+		imgVPerso.setFitWidth(32);
+		persoPane.getChildren().add(imgVPerso);
+		persoPane.setOnKeyPressed(e -> handlePressed(e));
+		persoPane.setOnKeyReleased(e -> handleReleased(e));
 	}
 	private void initAnimation() {
 		lastUpdateTime=1;
 		gameLoop = new Timeline();
-		temps=0;
+		//temps=0;
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
-		
 		timer= new AnimationTimer() {
+<<<<<<< HEAD
 		
 			@Override
 			public void handle(long l) {
@@ -172,10 +221,38 @@ public class ControleurMap implements Initializable {
 					if (!colision(dx, dy)) {
 						p.move(dx, dy);
 					}
+=======
+			
+				@Override
+				public void handle(long l) {
+					if(lastUpdateTime>0) {
+						int dx = 0, dy = 0;
+						        
+						if (north) dy -= 32;
+						if (south) dy += 32;
+						if (east) {
+							dx += 32;
+						    imgVPerso.setImage(new Image("file:src/img/perso-right.png"));
+						}
+						if (west) {
+						    dx -= 32;
+						    imgVPerso.setImage(new Image("file:src/img/persoMod.png"));
+						}
+						if (!colision(dx, dy)) {
+							p.move(dx, dy);
+						}
+					}
+					lastUpdateTime=l;
+>>>>>>> 49f6db38a31d9178fcc0a7770dc01e809c3f226c
 				}
-				lastUpdateTime=l;
-			}
 		};
+		//handlerGravity();
+	}
+	
+	public void handlerGravity() {
+		while (!colision(0,8)) {
+			this.p.setY(-8);
+		}
 	}
 	
 	@Override
