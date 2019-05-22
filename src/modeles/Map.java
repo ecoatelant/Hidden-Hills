@@ -14,6 +14,7 @@ public class Map {
 	private ObservableList<Block> map;
 	private int mapwidth;
 	private int mapheight;
+	
 	public Map () {
 		this.map = FXCollections.observableArrayList();
 		BufferedReader file;
@@ -21,7 +22,6 @@ public class Map {
 
 			file = new BufferedReader(new FileReader("src/Map2.csv"));
 			try {
-				int mapHeight;
 				while (file.ready()) {
 					try {
 						//On récupère l'id des blocks en les découpants à partir des virgules 
