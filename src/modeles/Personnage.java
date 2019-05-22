@@ -15,8 +15,8 @@ public class Personnage extends Map {
 	//Constructeur////////////////////////////////////////////////////////////////////////////////////////
 	public Personnage() {
 		this.pv=100;
-		this.xProperty = new SimpleDoubleProperty(0);
-		this.yProperty = new SimpleDoubleProperty(0);
+		this.xProperty = new SimpleDoubleProperty(32);
+		this.yProperty = new SimpleDoubleProperty(32);
 	}
 	
 	//Getter///////////////////////////////////////////////////////////////////////////////////////////////
@@ -32,6 +32,7 @@ public class Personnage extends Map {
 		return this.yProperty;
 	}
 	
+<<<<<<< HEAD
 	public double getX() {
 		return this.xProperty.get();
 	}
@@ -45,6 +46,9 @@ public class Personnage extends Map {
 	}
 	
 	//Setter///////////////////////////////////////////////////////////////////////////////////////////////
+=======
+	//Setter
+>>>>>>> ed911b3f48c86c217393931d8463aeb5497adf48
 	public void gainVie(int gain) {
 		this.pv=+gain;
 	}
@@ -63,10 +67,8 @@ public class Personnage extends Map {
 		return this.pv<=0;
 	}
 	
-	public void setX (double x) {
-		this.xProperty.set(x);
-	}
 	
+<<<<<<< HEAD
 	public void setY (double y) {
 		this.yProperty.set(y);
 	}
@@ -94,6 +96,11 @@ public class Personnage extends Map {
 		else {
 			return false;
 		}
+=======
+/*	//Dans la map, il y a 40 blocs de largeur et 60 blocs de hauteur
+	public int getIndice() {
+		return (this.xProperty.get()*40)
+>>>>>>> ed911b3f48c86c217393931d8463aeb5497adf48
 	}
 	
 }
