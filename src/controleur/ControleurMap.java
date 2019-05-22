@@ -18,9 +18,12 @@ import javafx.fxml.Initializable;
 
 public class ControleurMap implements Initializable {
     
-    final static int BLOC_LARGEUR = 60;
-    final static int BLOC_HAUTEUR = 40;
+	//Déclaration des tailles sur la map
+    final static int NBR_BLOC_LARGEUR = 60;
+    final static int NBR_BLOC_HAUTEUR = 40;
     final static int TAILLE_BLOC = 32; //Les blocs sont carrés en 32 pixels
+    final static int PERSO_LARGEUR = 32;
+    final static int PERSO_HAUTEUR = 64;
 
     @FXML
     private Pane mainPane;
@@ -34,13 +37,9 @@ public class ControleurMap implements Initializable {
     @FXML
     private ImageView imgVPerso;
 
+    //Déclaration du PP et de son aabb
     private Personnage p = new Personnage();
-    
-<<<<<<< HEAD
     private Rectangle aabb = new Rectangle(32,64);
-=======
-    private Rectangle rectangleColision = new Rectangle(32,64);
->>>>>>> 49f6db38a31d9178fcc0a7770dc01e809c3f226c
     
     private long lastUpdateTime;
 	
@@ -52,7 +51,7 @@ public class ControleurMap implements Initializable {
 	
     private AnimationTimer timer;
     
-    private boolean south,east,west,north;
+    private boolean south,east,west,north,jump;
     
   	public void handlePressed(KeyEvent e) {
   		switch (e.getCode()) {
@@ -69,11 +68,7 @@ public class ControleurMap implements Initializable {
           		east=true;
           		break;
           	case SPACE :
-<<<<<<< HEAD
           		jump = true;
-=======
-          		handle('J');
->>>>>>> 49f6db38a31d9178fcc0a7770dc01e809c3f226c
           	default:
           		break;
   		}
@@ -89,10 +84,6 @@ public class ControleurMap implements Initializable {
           	default: break;
   		}
   	}
-<<<<<<< HEAD
-    
-=======
-
     public void handle(char direction) {
         int dx = 0, dy = 0;
         if (direction=='N') dy -= 8;
@@ -116,60 +107,39 @@ public class ControleurMap implements Initializable {
         
     }
 
->>>>>>> 49f6db38a31d9178fcc0a7770dc01e809c3f226c
 	public boolean colision(int newX, int newY) {
 		//Regard angle gauche haut
-		if(map.getBlock(calculationIndex((rectangleColision.getTranslateX()+newX),(rectangleColision.getTranslateY()+newY))).getCollision()) {
+		if(map.getBlock(calculationIndex((aabb.getTranslateX()+newX),(aabb.getTranslateY()+newY))).getCollision()) {
 			return true;
 		}
 		//Regard angle gauche bas
-<<<<<<< HEAD
 		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX),(aabb.getTranslateY()+newY)+56)).getCollision()) {
 			return true;
 		}
-		//Regard angle droite haut
+		//Regard angle droit haut
 		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX)+24,(aabb.getTranslateY()+newY))).getCollision()) {
 			return true;
 		}
-		//Regard angle droite bas
+		//Regard angle droit bas
 		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX)+24,(aabb.getTranslateY()+newY)+56)).getCollision()) {
-=======
-		else if (map.getBlock(calculationIndex((rectangleColision.getTranslateX()+newX),(rectangleColision.getTranslateY()+newY)+46)).getCollision()) {
 			return true;
 		}
-		//Regard angle droite haut
-		else if (map.getBlock(calculationIndex((rectangleColision.getTranslateX()+newX)+26,(rectangleColision.getTranslateY()+newY))).getCollision()) {
-			return true;
-		}
-		//Regard angle droite bas
-		else if (map.getBlock(calculationIndex((rectangleColision.getTranslateX()+newX)+26,(rectangleColision.getTranslateY()+newY)+46)).getCollision()) {
->>>>>>> 49f6db38a31d9178fcc0a7770dc01e809c3f226c
-			return true;
-		}
-		//return
+		//Return
 		else {
 			return false;
 		}
 	}
 	
-	//Dans la map, il y a 40 blocs de hauteur et 60 blocs de largeur
 	public int calculationIndex(double x, double y) {
-<<<<<<< HEAD
-		return (int) (((int)(y/TAILLE_BLOC))*BLOC_LARGEUR+(x/TAILLE_BLOC));
-=======
-		int ind;
-		ind = (int) (((int)(y/TAILLE_BLOC))*BLOC_LARGEUR+(x/TAILLE_BLOC));
-		//Vérification indice par rapport aux x et y
-		return ind;
->>>>>>> 49f6db38a31d9178fcc0a7770dc01e809c3f226c
+		return (int) (((int)(y/TAILLE_BLOC))*NBR_BLOC_LARGEUR+(x/TAILLE_BLOC));
 	}
     
     public void handlerColision () {
-    	rectangleColision.setFill(Color.BLACK);
-    	rectangleColision.setOpacity(0.0);
-		rectangleColision.translateXProperty().bind(this.p.xProperty());
-		rectangleColision.translateYProperty().bind(this.p.yProperty());
-		persoPane.getChildren().add(rectangleColision);
+    	aabb.setFill(Color.BLACK);
+    	aabb.setOpacity(0.0);
+		aabb.translateXProperty().bind(this.p.xProperty());
+		aabb.translateYProperty().bind(this.p.yProperty());
+		persoPane.getChildren().add(aabb);
     }
      
 	public void createMap() {
@@ -195,14 +165,14 @@ public class ControleurMap implements Initializable {
 		persoPane.setOnKeyPressed(e -> handlePressed(e));
 		persoPane.setOnKeyReleased(e -> handleReleased(e));
 	}
+	
 	private void initAnimation() {
 		lastUpdateTime=1;
 		gameLoop = new Timeline();
 		//temps=0;
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 		timer= new AnimationTimer() {
-<<<<<<< HEAD
-		
+			
 			@Override
 			public void handle(long l) {
 				if(lastUpdateTime>0) {
@@ -211,47 +181,24 @@ public class ControleurMap implements Initializable {
 					if (south) dy += 8;
 					if (east) {
 						dx += 8;
-						imgVi.setImage(new Image("file:src/img/perso-right.png"));
+						imgVPerso.setImage(new Image("file:src/img/perso-right.png"));
 					}
 					if (west) {
 						dx -= 8;
-						imgVi.setImage(new Image("file:src/img/persoMod.png"));
+						imgVPerso.setImage(new Image("file:src/img/persoMod.png"));
 					}
 			
 					if (!colision(dx, dy)) {
 						p.move(dx, dy);
 					}
-=======
-			
-				@Override
-				public void handle(long l) {
-					if(lastUpdateTime>0) {
-						int dx = 0, dy = 0;
-						        
-						if (north) dy -= 32;
-						if (south) dy += 32;
-						if (east) {
-							dx += 32;
-						    imgVPerso.setImage(new Image("file:src/img/perso-right.png"));
-						}
-						if (west) {
-						    dx -= 32;
-						    imgVPerso.setImage(new Image("file:src/img/persoMod.png"));
-						}
-						if (!colision(dx, dy)) {
-							p.move(dx, dy);
-						}
-					}
-					lastUpdateTime=l;
->>>>>>> 49f6db38a31d9178fcc0a7770dc01e809c3f226c
 				}
+			}
 		};
-		//handlerGravity();
 	}
 	
 	public void handlerGravity() {
 		while (!colision(0,8)) {
-			this.p.setY(-8);
+			this.p.move(0,8);
 		}
 	}
 	
@@ -260,7 +207,7 @@ public class ControleurMap implements Initializable {
 		createMap();
 		createPerso();   
 		initAnimation();
-		handlerColision();
+		//handlerGravity();
 		gameLoop.play();
 		timer.start();
 	}
