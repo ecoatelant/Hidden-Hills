@@ -5,8 +5,6 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import modeles.Personnage;
 import modeles.Map;
 import java.net.URL;
@@ -16,7 +14,7 @@ import javafx.fxml.Initializable;
 
 public class ControleurMap implements Initializable {
 
-    private Map map;
+    private Map map = new Map();
     
     @FXML
     private Pane mainPane;
@@ -76,21 +74,48 @@ public class ControleurMap implements Initializable {
     public void handle(char direction) {
         int dx = 0, dy = 0;
 
-        if (direction=='N') dy -= 5;
-        if (direction=='S') dy += 5;
+        if (direction=='N') dy -= 8;
+        if (direction=='S') dy += 8;
         if (direction=='E') {
-        	dx += 5;
-        	imgVi.setImage(new Image("file:Hidden Hills/src/img/perso-right.png"));
+        	dx += 8;
+        	imgVi.setImage(new Image("file:src/img/perso-right.png"));
         }
         if (direction=='W') {
-        	dx -= 5;
-        	imgVi.setImage(new Image("file:Hidden Hills/src/img/persoMod.png"));
+        	dx -= 8;
+        	imgVi.setImage(new Image("file:src/img/persoMod.png"));
         }
         if (direction=='J') dy -= 20;
         
-        p.move(dx, dy);
+        if(!collision(dx, dy)) {
+        	p.move(dx, dy);
+        }
+        else {
+        	System.out.println("collision");
+        }
+        
     }
-      
+    
+	public boolean collision(int newX, int newY) {
+		/*for(int i = 0 ; i<this.map.getMap().size() ; i++) {
+			
+		}*/
+		return map.getBlock(calculIndice((p.getX()+newX),(p.getY()+newY))).getCollision();
+	}
+	
+	//Dans la map, il y a 40 blocs de hauteur et 60 blocs de largeur
+	public int calculIndice(double x, double y) {
+		int ind;
+		if(y < 32) {
+			ind= (int) x/32;
+		}
+		else {
+			ind = (int) (((int)(y/32))*60+(x/32));
+		}
+		System.out.println(x+" , " + y);
+		System.out.println(ind);
+		return ind;
+	}
+    
     public void créationMap () {
     	for(int i = 0; i < this.map.getMap().size(); i++) {
             Image img = new Image (this.map.getBlock(i).getuRI());
@@ -104,6 +129,7 @@ public class ControleurMap implements Initializable {
     }
     
     public void déplacementPersonnage () {
+    	imgVi = new ImageView ("file:src/img/persoMod.png");
     	imgVi = new ImageView (new Image("file:Hidden Hills/src/img/persoMod.png"));
 		imgVi.translateXProperty().bind(this.p.xProperty());
 		imgVi.translateYProperty().bind(this.p.yProperty());
@@ -113,24 +139,10 @@ public class ControleurMap implements Initializable {
 		persoPane.setOnKeyReleased(e -> handleReleased(e));
     }
     
-    public void gestionCollision () {
-    	Rectangle test = new Rectangle(26,46);
-    	Rectangle test2 = new Rectangle (32,32);
-    	test2.setFill(Color.RED);
-    	test.setFill(Color.BLACK);
-    	persoPane.getChildren().addAll(test,test2);
-		test.translateXProperty().bind(this.p.xProperty());
-		test.translateYProperty().bind(this.p.yProperty());
-		if ()) {
-			System.out.println("colision");
-		}
-    }
-    
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		map = new Map();
 		créationMap();
 		déplacementPersonnage();
-		gestionCollision();
+		//gestionCollision();
 	}
 }
