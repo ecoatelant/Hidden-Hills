@@ -12,7 +12,7 @@
          <children>
             <TilePane fx:id="tilePaneMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1290.0" prefWidth="1950.0" />
             <Pane fx:id="persoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1290.0" prefWidth="1950.0" />
-         </children>
+      	 </children>
       </Pane>
    </center>
 </BorderPane>
