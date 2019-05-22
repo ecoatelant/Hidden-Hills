@@ -17,13 +17,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 public class ControleurMap implements Initializable {
-    
-	//Déclaration des tailles sur la map
-    final static int NBR_BLOC_LARGEUR = 60;
-    final static int NBR_BLOC_HAUTEUR = 40;
-    final static int TAILLE_BLOC = 32; //Les blocs sont carrés en 32 pixels
-    final static int PERSO_LARGEUR = 32;
-    final static int PERSO_HAUTEUR = 64;
 
     @FXML
     private Pane mainPane;
@@ -47,7 +40,7 @@ public class ControleurMap implements Initializable {
     
 	private Timeline gameLoop;
 	
-	//private int temps;
+	private int temps;
 	
     private AnimationTimer timer;
     
@@ -84,63 +77,6 @@ public class ControleurMap implements Initializable {
           	default: break;
   		}
   	}
-    public void handle(char direction) {
-        int dx = 0, dy = 0;
-        if (direction=='N') dy -= 8;
-        if (direction=='S') dy += 8;
-        if (direction=='E') {
-        	dx += 8;
-        	imgVPerso.setImage(new Image("file:src/img/perso-right.png"));
-        }
-        if (direction=='W') {
-        	dx -= 8;
-        	imgVPerso.setImage(new Image("file:src/img/persoMod.png"));
-        }
-        if (direction=='J') dy -= 20;
-        
-        if(!colision(dx, dy)) {
-        	p.move(dx, dy);
-        }
-        else {
-        	System.out.println("collision");
-        }
-        
-    }
-
-	public boolean colision(int newX, int newY) {
-		//Regard angle gauche haut
-		if(map.getBlock(calculationIndex((aabb.getTranslateX()+newX),(aabb.getTranslateY()+newY))).getCollision()) {
-			return true;
-		}
-		//Regard angle gauche bas
-		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX),(aabb.getTranslateY()+newY)+56)).getCollision()) {
-			return true;
-		}
-		//Regard angle droit haut
-		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX)+24,(aabb.getTranslateY()+newY))).getCollision()) {
-			return true;
-		}
-		//Regard angle droit bas
-		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX)+24,(aabb.getTranslateY()+newY)+56)).getCollision()) {
-			return true;
-		}
-		//Return
-		else {
-			return false;
-		}
-	}
-	
-	public int calculationIndex(double x, double y) {
-		return (int) (((int)(y/TAILLE_BLOC))*NBR_BLOC_LARGEUR+(x/TAILLE_BLOC));
-	}
-    
-    public void handlerColision () {
-    	aabb.setFill(Color.BLACK);
-    	aabb.setOpacity(0.0);
-		aabb.translateXProperty().bind(this.p.xProperty());
-		aabb.translateYProperty().bind(this.p.yProperty());
-		persoPane.getChildren().add(aabb);
-    }
      
 	public void createMap() {
 		map = new Map();
@@ -154,6 +90,11 @@ public class ControleurMap implements Initializable {
 		        }
 			}
 	}
+	
+	public void affichageMap() {
+		//TO-DO
+	}
+	
 	public void createPerso() {
 		imgVPerso = new ImageView ("file:src/img/persoMod.png");
 		imgVPerso.translateXProperty().bind(this.p.xProperty());
@@ -166,10 +107,18 @@ public class ControleurMap implements Initializable {
 		persoPane.setOnKeyReleased(e -> handleReleased(e));
 	}
 	
+    public void handlerColision () {
+    	aabb.setFill(Color.BLACK);
+    	aabb.setOpacity(0.3);
+		aabb.translateXProperty().bind(this.p.xProperty());
+		aabb.translateYProperty().bind(this.p.yProperty());
+		persoPane.getChildren().add(aabb);
+    }
+	
 	private void initAnimation() {
 		lastUpdateTime=1;
 		gameLoop = new Timeline();
-		//temps=0;
+		temps=0;
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 		timer= new AnimationTimer() {
 			
@@ -188,7 +137,7 @@ public class ControleurMap implements Initializable {
 						imgVPerso.setImage(new Image("file:src/img/persoMod.png"));
 					}
 			
-					if (!colision(dx, dy)) {
+					if (!p.colision(dx, dy)) {
 						p.move(dx, dy);
 					}
 				}
@@ -197,17 +146,19 @@ public class ControleurMap implements Initializable {
 	}
 	
 	public void handlerGravity() {
-		while (!colision(0,8)) {
+		while (!p.colision(0,8)) {
 			this.p.move(0,8);
 		}
 	}
+	
+	
 	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		createMap();
 		createPerso();   
 		initAnimation();
-		//handlerGravity();
+		handlerColision();
 		gameLoop.play();
 		timer.start();
 	}

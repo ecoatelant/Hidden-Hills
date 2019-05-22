@@ -15,6 +15,11 @@ public class Map {
 	private int mapwidth;
 	private int mapheight;
 	
+	//Déclaration des tailles sur la map
+    final static int NBR_BLOC_LARGEUR = 60;
+    final static int NBR_BLOC_HAUTEUR = 40;
+    final static int TAILLE_BLOC = 32; //Les blocs sont carrés en 32 pixels
+	
 	public Map () {
 		this.map = FXCollections.observableArrayList();
 		BufferedReader file;
@@ -81,6 +86,10 @@ public class Map {
 	public int getMapHeight() {
 		return this.mapheight;
 	}
-
+	
+	public int calculationIndex(double x, double y) {
+		return (int) (((int)(y/TAILLE_BLOC))*NBR_BLOC_LARGEUR+(x/TAILLE_BLOC));
+	}
 
 }
+
