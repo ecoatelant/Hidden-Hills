@@ -41,7 +41,7 @@ public class ControleurMap implements Initializable {
 
     private Personnage p = new Personnage();
     
-    private Rectangle aabb = new Rectangle(26,46);
+    private Rectangle aabb = new Rectangle(32,64);
     
     @FXML
     private ImageView imgVi;
@@ -68,7 +68,6 @@ public class ControleurMap implements Initializable {
           		break;
           	case SPACE :
           		jump = true;
-          		handle('J');
           	default:
           		break;
   		}
@@ -84,30 +83,6 @@ public class ControleurMap implements Initializable {
           	default: break;
   		}
   	}
-      
-    public void handle(char direction) {
-        int dx = 0, dy = 0;
-
-        if (direction=='N') dy -= 6;
-        if (direction=='S') dy += 6;
-        if (direction=='E') {
-        	dx += 6;
-        	imgVi.setImage(new Image("file:src/img/perso-right.png"));
-        }
-        if (direction=='W') {
-        	dx -= 8;
-        	imgVi.setImage(new Image("file:src/img/persoMod.png"));
-        }
-        if (direction=='J') dy -= 20;
-        
-        if(!colision(dx, dy)) {
-        	p.move(dx, dy);
-        }
-        else {
-        	System.out.println("collision");
-        }
-        
-    }
     
 	public boolean colision(int newX, int newY) {
 		//Regard angle gauche haut
@@ -115,23 +90,15 @@ public class ControleurMap implements Initializable {
 			return true;
 		}
 		//Regard angle gauche bas
-<<<<<<< HEAD
-		else if (map.getBlock(calculIndice((aabb.getTranslateX()+newX),(aabb.getTranslateY()+newY)+35)).getCollision()) {
-=======
-		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX),(aabb.getTranslateY()+newY)+46)).getCollision()) {
->>>>>>> 6e4418598ad0c338a0fcbf5714f4ebc8d0c258e6
+		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX),(aabb.getTranslateY()+newY)+56)).getCollision()) {
 			return true;
 		}
 		//Regard angle droite haut
-		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX)+26,(aabb.getTranslateY()+newY))).getCollision()) {
+		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX)+24,(aabb.getTranslateY()+newY))).getCollision()) {
 			return true;
 		}
 		//Regard angle droite bas
-<<<<<<< HEAD
-		else if (map.getBlock(calculIndice((aabb.getTranslateX()+newX)+26,(aabb.getTranslateY()+newY)+35)).getCollision()) {
-=======
-		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX)+26,(aabb.getTranslateY()+newY)+46)).getCollision()) {
->>>>>>> 6e4418598ad0c338a0fcbf5714f4ebc8d0c258e6
+		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX)+24,(aabb.getTranslateY()+newY)+56)).getCollision()) {
 			return true;
 		}
 		//return
@@ -142,13 +109,7 @@ public class ControleurMap implements Initializable {
 	
 	//Dans la map, il y a 40 blocs de hauteur et 60 blocs de largeur
 	public int calculationIndex(double x, double y) {
-		int ind;
-		ind = (int) (((int)(y/TAILLE_BLOC))*BLOC_LARGEUR+(x/TAILLE_BLOC));
-		
-		//Vérification indice par rapport aux x et y
-		System.out.println(x + " , " + y);
-		System.out.println(ind);
-		return ind;
+		return (int) (((int)(y/TAILLE_BLOC))*BLOC_LARGEUR+(x/TAILLE_BLOC));
 	}
     
     public void handlerColision () {
@@ -192,25 +153,25 @@ public class ControleurMap implements Initializable {
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 		
 		timer= new AnimationTimer() {
-	@Override
-	
-	public void handle(long l) {
-		if(lastUpdateTime>0) {
-			   int dx = 0, dy = 0;
-			        
-			   if (north) dy -= 32;
-			   if (south) dy += 32;
-			   if (east) {
-			        	dx += 32;
-			        	imgVi.setImage(new Image("file:src/img/perso-right.png"));
-			        }
-			        if (west) {
-			        	dx -= 32;
-			        	imgVi.setImage(new Image("file:src/img/persoMod.png"));
-			        }
-			        if (!colision(dx, dy)) {
-			        	p.move(dx, dy);
-			        }
+		
+			@Override
+			public void handle(long l) {
+				if(lastUpdateTime>0) {
+					int dx = 0, dy = 0;
+					if (north) dy -= 8;
+					if (south) dy += 8;
+					if (east) {
+						dx += 8;
+						imgVi.setImage(new Image("file:src/img/perso-right.png"));
+					}
+					if (west) {
+						dx -= 8;
+						imgVi.setImage(new Image("file:src/img/persoMod.png"));
+					}
+			
+					if (!colision(dx, dy)) {
+						p.move(dx, dy);
+					}
 				}
 				lastUpdateTime=l;
 			}
