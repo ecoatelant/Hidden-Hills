@@ -11,17 +11,24 @@ import modeles.Personnage;
 import modeles.Map;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.animation.AnimationTimer;
+import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 
 public class ControleurMap implements Initializable {
-
-    private Map map = new Map();
     
     final static int BLOC_LARGEUR = 60;
     final static int BLOC_HAUTEUR = 40;
-    final static int TAILLE_BLOC = 32; //Les blocs sont carrés
-    
+    final static int TAILLE_BLOC = 32; //Les blocs sont carrés en 32 pixels
+
+	private long lastUpdateTime;
+    private Map map;
+	private Timeline gameLoop;
+	private int temps;
+    private AnimationTimer timer;
+    private boolean south,east,west,north,jump;
+
     @FXML
     private Pane mainPane;
 
@@ -31,35 +38,33 @@ public class ControleurMap implements Initializable {
     @FXML
     private Pane persoPane;
 
+
     private Personnage p = new Personnage();
     
     private Rectangle aabb = new Rectangle(26,46);
-  
-    boolean running, goNorth, goSouth, goEast, goWest , jump;
-
+    
     @FXML
     private ImageView imgVi;
     
     @FXML
     private ImageView imgV;
+ 
+
+    
 
   	public void handlePressed(KeyEvent e) {
   		switch (e.getCode()) {
           	case Z:  
-          		goNorth = true; 
-          		handle('N');
+          		north=true;
           		break;
           	case S:  
-          		goSouth = true;
-          		handle('S');
+          		south=true;
           		break;
-          	case Q:  
-          		goWest  = true;         		
-          		handle('W');
+          	case Q:           		
+          		west=true;
           		break;
           	case D:  
-          		goEast  = true;
-          		handle('E');
+          		east=true;
           		break;
           	case SPACE :
           		jump = true;
@@ -68,12 +73,13 @@ public class ControleurMap implements Initializable {
           		break;
   		}
   	}
+
   	public void handleReleased(KeyEvent e) {
   		switch (e.getCode()) {
-  			case Z:  goNorth = false; break;
-  			case S:  goSouth = false; break;
-          	case Q:  goWest  = false; break;
-          	case D:  goEast  = false; break;
+  			case Z:  north = false; break;
+  			case S:  south = false; break;
+          	case Q:  west  = false; break;
+          	case D:  east  = false; break;
           	case SPACE: jump = false;break;
           	default: break;
   		}
@@ -94,7 +100,7 @@ public class ControleurMap implements Initializable {
         }
         if (direction=='J') dy -= 20;
         
-        if(!collision(dx, dy)) {
+        if(!colision(dx, dy)) {
         	p.move(dx, dy);
         }
         else {
@@ -103,21 +109,29 @@ public class ControleurMap implements Initializable {
         
     }
     
-	public boolean collision(int newX, int newY) {
+	public boolean colision(int newX, int newY) {
 		//Regard angle gauche haut
-		if(map.getBlock(calculIndice((aabb.getTranslateX()+newX),(aabb.getTranslateY()+newY))).getCollision()) {
+		if(map.getBlock(calculationIndex((aabb.getTranslateX()+newX),(aabb.getTranslateY()+newY))).getCollision()) {
 			return true;
 		}
 		//Regard angle gauche bas
+<<<<<<< HEAD
 		else if (map.getBlock(calculIndice((aabb.getTranslateX()+newX),(aabb.getTranslateY()+newY)+35)).getCollision()) {
+=======
+		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX),(aabb.getTranslateY()+newY)+46)).getCollision()) {
+>>>>>>> 6e4418598ad0c338a0fcbf5714f4ebc8d0c258e6
 			return true;
 		}
 		//Regard angle droite haut
-		else if (map.getBlock(calculIndice((aabb.getTranslateX()+newX)+26,(aabb.getTranslateY()+newY))).getCollision()) {
+		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX)+26,(aabb.getTranslateY()+newY))).getCollision()) {
 			return true;
 		}
 		//Regard angle droite bas
+<<<<<<< HEAD
 		else if (map.getBlock(calculIndice((aabb.getTranslateX()+newX)+26,(aabb.getTranslateY()+newY)+35)).getCollision()) {
+=======
+		else if (map.getBlock(calculationIndex((aabb.getTranslateX()+newX)+26,(aabb.getTranslateY()+newY)+46)).getCollision()) {
+>>>>>>> 6e4418598ad0c338a0fcbf5714f4ebc8d0c258e6
 			return true;
 		}
 		//return
@@ -127,7 +141,7 @@ public class ControleurMap implements Initializable {
 	}
 	
 	//Dans la map, il y a 40 blocs de hauteur et 60 blocs de largeur
-	public int calculIndice(double x, double y) {
+	public int calculationIndex(double x, double y) {
 		int ind;
 		ind = (int) (((int)(y/TAILLE_BLOC))*BLOC_LARGEUR+(x/TAILLE_BLOC));
 		
@@ -137,41 +151,80 @@ public class ControleurMap implements Initializable {
 		return ind;
 	}
     
-    public void créationMap () {
-    	for(int i = 0; i < this.map.getMap().size(); i++) {
-            Image img = new Image (this.map.getBlock(i).getuRI());
-			imgV = new ImageView (img);
-			imgV.setFitHeight(32);
-			imgV.setFitWidth(32);
-			imgV.setTranslateX(0);
-			imgV.setTranslateY(0);
-			tilePaneMap.getChildren().add(imgV);
-        }
-    }
-    
-    public void déplacementPersonnage () {
-    	imgVi = new ImageView ("file:src/img/persoMod.png");
-    	imgVi = new ImageView (new Image("file:Hidden Hills/src/img/persoMod.png"));
-		imgVi.translateXProperty().bind(this.p.xProperty());
-		imgVi.translateYProperty().bind(this.p.yProperty());
-		imgVi.setFocusTraversable(true);
-		persoPane.getChildren().add(imgVi);
-		persoPane.setOnKeyPressed(e -> handlePressed(e));
-		persoPane.setOnKeyReleased(e -> handleReleased(e));
-    }
-    
-    public void gestionCollision () {
+    public void handlerColision () {
     	aabb.setFill(Color.BLACK);
     	aabb.setOpacity(0.2);
 		aabb.translateXProperty().bind(this.p.xProperty());
 		aabb.translateYProperty().bind(this.p.yProperty());
 		persoPane.getChildren().add(aabb);
     }
-    
+     
+	public void createMap() {
+		map = new Map();
+		for(int j=0; j<map.getMapHeight()-1;j++) {
+		        for(int i = 0; i < map.getMapWidth();i++) {
+			            Image img = new Image(this.map.getBlock(i+(j*60)).getuRI());
+						ImageView imgV=new ImageView (img);
+						imgV.setFitHeight(32);
+						imgV.setFitWidth(32);
+						tilePaneMap.getChildren().add(imgV);
+		        	
+		        }
+			}
+	}
+	public void createPerso() {
+		  	imgVi = new ImageView ("file:src/img/persoMod.png");
+		  	imgVi.translateXProperty().bind(this.p.xProperty());
+			imgVi.translateYProperty().bind(this.p.yProperty());
+			imgVi.setFocusTraversable(true);
+			imgVi.setFitHeight(64);
+			imgVi.setFitWidth(32);
+			persoPane.getChildren().add(imgVi);
+			persoPane.setOnKeyPressed(e -> handlePressed(e));
+			persoPane.setOnKeyReleased(e -> handleReleased(e));
+			
+
+	}
+	private void initAnimation() {
+		lastUpdateTime=1;
+		gameLoop = new Timeline();
+		temps=0;
+		gameLoop.setCycleCount(Timeline.INDEFINITE);
+		
+		timer= new AnimationTimer() {
+	@Override
+	
+	public void handle(long l) {
+		if(lastUpdateTime>0) {
+			   int dx = 0, dy = 0;
+			        
+			   if (north) dy -= 32;
+			   if (south) dy += 32;
+			   if (east) {
+			        	dx += 32;
+			        	imgVi.setImage(new Image("file:src/img/perso-right.png"));
+			        }
+			        if (west) {
+			        	dx -= 32;
+			        	imgVi.setImage(new Image("file:src/img/persoMod.png"));
+			        }
+			        if (!colision(dx, dy)) {
+			        	p.move(dx, dy);
+			        }
+				}
+				lastUpdateTime=l;
+			}
+		};
+	}
+	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		créationMap();
-		déplacementPersonnage();
-		gestionCollision();
+		createMap();
+		createPerso();   
+		initAnimation();
+		handlerColision();
+		gameLoop.play();
+		timer.start();
 	}
+
 }

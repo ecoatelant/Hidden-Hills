@@ -8,17 +8,19 @@ public class Block {
 	public Block (String id) {
         this.id = id;
         String chemin = "file:src/img/";
-        this.collision=false;
+        this.collision=true;
         switch (id) {
-            case "3":
-                chemin = chemin + "air.png";
-                break;
-            case "7":
+            case "-1":
+                chemin = chemin + "fond.png";
+                this.collision=false;
+                break; 
+            case "0":
                 chemin = chemin + "charcoal.png";
                 this.collision=true;
                 break;
             case "6":
                 chemin = chemin + "dirt.jpg";
+
                 this.collision=true;
                 break;
             case "5":
@@ -35,16 +37,19 @@ public class Block {
                 break;
             case "":
                 chemin = chemin + "wood.jpg";
+                this.collision=false;
                 break;
             case "2":
                 chemin = chemin + "four.gif";
+                this.collision=false;
                 break;
             default:
                 chemin = chemin + "air.png";
+                this.collision=false;
                 break;
         }
         this.uRI = chemin;
-    }
+	}
 
 	//Getter
 	public String getId () {

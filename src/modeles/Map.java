@@ -12,22 +12,31 @@ import modeles.Block;
 public class Map {
 	
 	private ObservableList<Block> map;
-	 
+	private int mapwidth;
+	private int mapheight;
 	public Map () {
 		this.map = FXCollections.observableArrayList();
 		BufferedReader file;
 		try {
+
 			file = new BufferedReader(new FileReader("src/Map2.csv"));
 			try {
+				int mapHeight;
 				while (file.ready()) {
 					try {
 						//On récupère l'id des blocks en les découpants à partir des virgules 
-						String[] parts= file.readLine().split(",");
-						for(int i=0; i<parts.length;i++) {
-						this.map.add(new Block(parts[i]));
+						mapheight++;
+						String line=file.readLine();
+						String[] parts= line.split(",");
+						if(parts.length!=1) {
+							for(int i=0; i<parts.length;i++) {
+							this.map.add(new Block(parts[i]));
+							}
 						}
+						
+						this.mapwidth=parts.length;
 					}catch (IOException e) {
-						e.printStackTrace();
+						e.printStackTrace(); 
 					}
 				}
 			} catch (IOException e) {
@@ -65,6 +74,12 @@ public class Map {
 	
 	public ObservableList<Block> getMap() {
 	        return this.map;
+	}
+	public int getMapWidth() {
+		return this.mapwidth;
+	}
+	public int getMapHeight() {
+		return this.mapheight;
 	}
 
 
