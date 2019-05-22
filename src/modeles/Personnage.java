@@ -1,7 +1,5 @@
 package modeles;
 
-import java.awt.Rectangle;
-
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
