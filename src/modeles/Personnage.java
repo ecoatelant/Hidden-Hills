@@ -13,8 +13,8 @@ public class Personnage {
 	//Constructeur
 	public Personnage() {
 		this.pv=100;
-		this.xProperty = new SimpleDoubleProperty(0);
-		this.yProperty = new SimpleDoubleProperty(0);
+		this.xProperty = new SimpleDoubleProperty(32);
+		this.yProperty = new SimpleDoubleProperty(32);
 	}
 	
 	//Getter
@@ -28,14 +28,6 @@ public class Personnage {
 	
 	public DoubleProperty yProperty() {
 		return this.yProperty;
-	}
-	
-	public double getX() {
-		return this.xProperty.get();
-	}
-	
-	public double getY() {
-		return this.yProperty.get();
 	}
 	
 	//Setter
@@ -61,13 +53,7 @@ public class Personnage {
 		return this.pv<=0;
 	}
 	
-	public void setX (double x) {
-		this.xProperty.set(x);
-	}
 	
-	public void setY (double y) {
-		this.yProperty.set(y);
-	}
 /*	//Dans la map, il y a 40 blocs de largeur et 60 blocs de hauteur
 	public int getIndice() {
 		return (this.xProperty.get()*40)

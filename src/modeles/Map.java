@@ -5,8 +5,11 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.Callback;
 import modeles.Block;
 
 public class Map {
@@ -14,23 +17,33 @@ public class Map {
 	private ObservableList<Block> map;
 	private int mapwidth;
 	private int mapheight;
-	
 	public Map () {
-		this.map = FXCollections.observableArrayList();
+		this.map = FXCollections.observableArrayList(
+				new Callback<Block, Observable[]>() {
+                    @Override
+                    public Observable[] call(Block bloc) {
+                        return new Observable[]{
+                                bloc.indiceProperty()
+                        };
+                    }
+                }
+        );
 		BufferedReader file;
 		try {
-
-			file = new BufferedReader(new FileReader("src/Map2.csv"));
+			file = new BufferedReader(new FileReader("src/Map.csv"));
 			try {
+				int mapHeight;
 				while (file.ready()) {
 					try {
 						//On récupère l'id des blocks en les découpants à partir des virgules 
 						mapheight++;
 						String line=file.readLine();
 						String[] parts= line.split(",");
+						int j=0;
 						if(parts.length!=1) {
 							for(int i=0; i<parts.length;i++) {
-							this.map.add(new Block(parts[i]));
+							this.map.add(new Block(parts[i],j));
+							j++;
 							}
 						}
 						
@@ -51,7 +64,7 @@ public class Map {
 	public void sauvegarderMap() {
         try {
         	//Dans le fichier csv, on place les ids des blocks et on place une virgule.
-            File file = new File("src/vue/Map2.csv");
+            File file = new File("Hidden Hills/src/vue/Map.csv");
             FileWriter fileWriter = new FileWriter(file, false);
             String changements = "";
             int i = 1;
@@ -71,7 +84,9 @@ public class Map {
 	public Block getBlock (int indice) {
 	        return this.map.get(indice);
 	}
-	
+	public void setBlock(int indice, Block block) {
+		this.map.set(indice, block);
+	}
 	public ObservableList<Block> getMap() {
 	        return this.map;
 	}
