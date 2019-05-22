@@ -82,10 +82,10 @@ public class ControleurMap implements Initializable {
     public void handle(char direction) {
         int dx = 0, dy = 0;
 
-        if (direction=='N') dy -= 8;
-        if (direction=='S') dy += 8;
+        if (direction=='N') dy -= 6;
+        if (direction=='S') dy += 6;
         if (direction=='E') {
-        	dx += 8;
+        	dx += 6;
         	imgVi.setImage(new Image("file:src/img/perso-right.png"));
         }
         if (direction=='W') {
@@ -109,7 +109,7 @@ public class ControleurMap implements Initializable {
 			return true;
 		}
 		//Regard angle gauche bas
-		else if (map.getBlock(calculIndice((aabb.getTranslateX()+newX),(aabb.getTranslateY()+newY)+46)).getCollision()) {
+		else if (map.getBlock(calculIndice((aabb.getTranslateX()+newX),(aabb.getTranslateY()+newY)+35)).getCollision()) {
 			return true;
 		}
 		//Regard angle droite haut
@@ -117,7 +117,7 @@ public class ControleurMap implements Initializable {
 			return true;
 		}
 		//Regard angle droite bas
-		else if (map.getBlock(calculIndice((aabb.getTranslateX()+newX)+26,(aabb.getTranslateY()+newY)+46)).getCollision()) {
+		else if (map.getBlock(calculIndice((aabb.getTranslateX()+newX)+26,(aabb.getTranslateY()+newY)+35)).getCollision()) {
 			return true;
 		}
 		//return
