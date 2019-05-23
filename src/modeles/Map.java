@@ -75,9 +75,11 @@ public class Map {
 	public ObservableList<Block> getMap() {
 	        return this.map;
 	}
+	
 	public int getMapWidth() {
 		return this.mapwidth;
 	}
+	
 	public int getMapHeight() {
 		return this.mapheight;
 	}

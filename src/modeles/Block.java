@@ -18,16 +18,16 @@ public class Block {
                 chemin = chemin + "charcoal.png";
                 this.collision=true;
                 break;
-            case "6":
+            case "13":
                 chemin = chemin + "dirt.jpg";
 
                 this.collision=true;
                 break;
-            case "5":
+            case "6":
                 chemin = chemin + "titanium.png";
                 //this.collision=true;
                 break;
-            case "1":
+            case "15":
                 chemin = chemin + "grass.jpg";
                 this.collision=true;
                 break;

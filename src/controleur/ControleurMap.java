@@ -48,9 +48,12 @@ public class ControleurMap implements Initializable {
 	
     private AnimationTimer timer;
     
-    private boolean south,east,west,north;
+    private boolean south,east,west,north,jump;
+    
+    private int nbJump;
     
   	public void handlePressed(KeyEvent e) {
+  		nbJump=0;
   		switch (e.getCode()) {
           	case Z:  
           		north=true;
@@ -65,7 +68,10 @@ public class ControleurMap implements Initializable {
           		east=true;
           		break;
           	case SPACE :
+          		jump=true;
+          		nbJump+=1;
           		handle('J');
+          		break;
           	default:
           		break;
   		}
@@ -77,7 +83,9 @@ public class ControleurMap implements Initializable {
   			case S:  south = false; break;
           	case Q:  west  = false; break;
           	case D:  east  = false; break;
-          	case SPACE: break;
+          	case SPACE: nbJump=0; 
+          				jump = false; 
+          				break;
           	default: break;
   		}
   	}
@@ -94,7 +102,7 @@ public class ControleurMap implements Initializable {
         	dx -= 8;
         	imgVPerso.setImage(new Image("file:src/img/persoMod.png"));
         }
-        if (direction=='J') dy -= 20;
+        if (direction=='J') dy -= 32;
         
         if(!colision(dx, dy)) {
         	p.move(dx, dy);
@@ -102,7 +110,6 @@ public class ControleurMap implements Initializable {
         else {
         	System.out.println("collision");
         }
-        
     }
 
 	public boolean colision(int newX, int newY) {
@@ -111,15 +118,15 @@ public class ControleurMap implements Initializable {
 			return true;
 		}
 		//Regard angle gauche bas
-		else if (map.getBlock(calculationIndex((rectangleColision.getTranslateX()+newX),(rectangleColision.getTranslateY()+newY)+46)).getCollision()) {
+		else if (map.getBlock(calculationIndex((rectangleColision.getTranslateX()+newX),(rectangleColision.getTranslateY()+newY)+32)).getCollision()) {
 			return true;
 		}
 		//Regard angle droite haut
-		else if (map.getBlock(calculationIndex((rectangleColision.getTranslateX()+newX)+26,(rectangleColision.getTranslateY()+newY))).getCollision()) {
+		else if (map.getBlock(calculationIndex((rectangleColision.getTranslateX()+newX)+64,(rectangleColision.getTranslateY()+newY))).getCollision()) {
 			return true;
 		}
 		//Regard angle droite bas
-		else if (map.getBlock(calculationIndex((rectangleColision.getTranslateX()+newX)+26,(rectangleColision.getTranslateY()+newY)+46)).getCollision()) {
+		else if (map.getBlock(calculationIndex((rectangleColision.getTranslateX()+newX)+32,(rectangleColision.getTranslateY()+newY)+64)).getCollision()) {
 			return true;
 		}
 		//return
@@ -156,6 +163,7 @@ public class ControleurMap implements Initializable {
 		        }
 			}
 	}
+	
 	public void createPerso() {
 		imgVPerso = new ImageView ("file:src/img/persoMod.png");
 		imgVPerso.translateXProperty().bind(this.p.xProperty());
@@ -173,21 +181,22 @@ public class ControleurMap implements Initializable {
 		//temps=0;
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 		timer= new AnimationTimer() {
-			
 				@Override
 				public void handle(long l) {
 					if(lastUpdateTime>0) {
 						int dx = 0, dy = 0;
-						        
-						if (north) dy -= 32;
-						if (south) dy += 32;
+						if (north) dy -= 16;
+						if (south) dy += 16;
 						if (east) {
-							dx += 32;
+							dx += 16;
 						    imgVPerso.setImage(new Image("file:src/img/perso-right.png"));
 						}
 						if (west) {
-						    dx -= 32;
+						    dx -= 16;
 						    imgVPerso.setImage(new Image("file:src/img/persoMod.png"));
+						}
+						if (jump && nbJump==1) {
+							dy -= 32;
 						}
 						if (!colision(dx, dy)) {
 							p.move(dx, dy);
@@ -196,19 +205,11 @@ public class ControleurMap implements Initializable {
 					lastUpdateTime=l;
 				}
 		};
-		//handlerGravity();
 	}
-	
-	public void handlerGravity() {
-		while (!colision(0,8)) {
-			this.p.setY(-8);
-		}
-	}
-	
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		createMap();
-		createPerso();   
+		createPerso();
 		initAnimation();
 		handlerColision();
 		gameLoop.play();
