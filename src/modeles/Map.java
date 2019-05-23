@@ -20,7 +20,7 @@ public class Map {
 	
 	//Déclaration des tailles sur la map
     public final static int NBR_BLOC_LARGEUR = 60;
-    final static int NBR_BLOC_HAUTEUR = 40;
+    public final static int NBR_BLOC_HAUTEUR = 40;
     final static int TAILLE_BLOC = 32; //Les blocs sont carrés en 32 pixels
 
 	public Map () {

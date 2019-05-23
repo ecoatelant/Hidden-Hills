@@ -35,6 +35,9 @@ public class ControleurMap implements Initializable {
     @FXML
     private ImageView imgVi;
     
+    @FXML
+    private Pane paneVueJoueur;
+    
     //Déclaration du PP
     private Personnage p = new Personnage();
     
@@ -101,31 +104,16 @@ public class ControleurMap implements Initializable {
 		}
 	}
 	
-	public ArrayList<ImageView> getMap() {
-		ArrayList<ImageView> mapImgV = new ArrayList<ImageView>();
-		for(int j=0; j<map.getMapHeight()-1;j++) {
-		        for(int i = 0; i < map.getMapWidth();i++) {
-			            Image img = new Image(this.map.getBlock(i+(j*60)).getuRI());
-						ImageView imgV=new ImageView(img);
-						imgV.setFitHeight(32);
-						imgV.setFitWidth(32);
-						mapImgV.add(imgV);
-		        }
-		       
-		}
-		return mapImgV;
-	}
-
 	public void affichageMap() {
-		tilePaneMap.getChildren().clear();
-		ArrayList<ImageView> mapV = getMap();
-		int iDebutMap = (int) (p.getX()/32-(Map.NBR_BLOC_LARGEUR/2)-1);
-		int iFinMap = (int) (p.getX()/32+(Map.NBR_BLOC_LARGEUR/2));
-		for(int i = iDebutMap ; i <= iFinMap ; i++) {
-			tilePaneMap.getChildren().add(mapV.get(i));
-		}
-		
+		mainPane.setTranslateX(-p.getX()+640);
+		mainPane.setTranslateY(-p.getY());
 	}
+	
+/*	public boolean bordureMap() {
+		if(mainPane.getTranslateX()==0) {
+			return true;
+		}
+	}*/
 	
 	public void createPerso() {
 		  	imgVi = new ImageView ("file:src/img/persoMod.png");
@@ -139,6 +127,7 @@ public class ControleurMap implements Initializable {
 			persoPane.setFocusTraversable(true);
 			persoPane.setOnKeyPressed(e -> handlePressed(e));
 			persoPane.setOnKeyReleased(e -> handleRelease(e));
+			
 	}
 
 	public void breakBlock() {
@@ -164,7 +153,7 @@ public class ControleurMap implements Initializable {
 				        	}
 	                    }
 	        	});
-		}
+	}
 
 	private void initAnimation() {
 		lastUpdateTime=1;
@@ -192,6 +181,7 @@ public class ControleurMap implements Initializable {
 						p.move(dx, dy);
 					}
 				}
+				affichageMap();
 			}
 		};
 	}
@@ -199,7 +189,6 @@ public class ControleurMap implements Initializable {
 	public void handlerGravity() {
 		while (!p.colision(0,8)) {
 			this.p.move(0,8);
-			affichageMap();
 		}
 	}
 	
