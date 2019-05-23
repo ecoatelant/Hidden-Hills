@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
 import javafx.animation.Timeline;
@@ -99,9 +100,31 @@ public class ControleurMap implements Initializable {
 		       
 		}
 	}
+	
+	public ArrayList<ImageView> getMap() {
+		ArrayList<ImageView> mapImgV = new ArrayList<ImageView>();
+		for(int j=0; j<map.getMapHeight()-1;j++) {
+		        for(int i = 0; i < map.getMapWidth();i++) {
+			            Image img = new Image(this.map.getBlock(i+(j*60)).getuRI());
+						ImageView imgV=new ImageView(img);
+						imgV.setFitHeight(32);
+						imgV.setFitWidth(32);
+						mapImgV.add(imgV);
+		        }
+		       
+		}
+		return mapImgV;
+	}
 
 	public void affichageMap() {
-		//TO-DO
+		tilePaneMap.getChildren().clear();
+		ArrayList<ImageView> mapV = getMap();
+		int iDebutMap = (int) (p.getX()/32-(Map.NBR_BLOC_LARGEUR/2)-1);
+		int iFinMap = (int) (p.getX()/32+(Map.NBR_BLOC_LARGEUR/2));
+		for(int i = iDebutMap ; i <= iFinMap ; i++) {
+			tilePaneMap.getChildren().add(mapV.get(i));
+		}
+		
 	}
 	
 	public void createPerso() {
@@ -176,6 +199,7 @@ public class ControleurMap implements Initializable {
 	public void handlerGravity() {
 		while (!p.colision(0,8)) {
 			this.p.move(0,8);
+			affichageMap();
 		}
 	}
 	
@@ -184,7 +208,7 @@ public class ControleurMap implements Initializable {
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		createMap();
-		createPerso();   
+		createPerso();
 		initAnimation();
 		gameLoop.play();
 		timer.start();
