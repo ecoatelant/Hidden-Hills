@@ -17,15 +17,12 @@ public class Map {
 	private ObservableList<Block> map;
 	private int mapwidth;
 	private int mapheight;
-<<<<<<< HEAD
 	
 	//Déclaration des tailles sur la map
     final static int NBR_BLOC_LARGEUR = 60;
     final static int NBR_BLOC_HAUTEUR = 40;
     final static int TAILLE_BLOC = 32; //Les blocs sont carrés en 32 pixels
-	
-=======
->>>>>>> ed911b3f48c86c217393931d8463aeb5497adf48
+
 	public Map () {
 		this.map = FXCollections.observableArrayList(
 				new Callback<Block, Observable[]>() {
