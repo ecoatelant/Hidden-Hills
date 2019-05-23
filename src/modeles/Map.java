@@ -5,22 +5,40 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+
+import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.util.Callback;
 import modeles.Block;
 
 public class Map {
-	
+											//Attributs//
 	private ObservableList<Block> map;
 	private int mapwidth;
 	private int mapheight;
 	
+	//Déclaration des tailles sur la map
+	final static String nomFichierMap = "Map.csv";
+    final static int NBR_BLOC_LARGEUR = 60;
+    final static int NBR_BLOC_HAUTEUR = 40;
+    final static int TAILLE_BLOC = 32; //Les blocs sont carrés en 32 pixels
+	
+    										//Constructeur//
 	public Map () {
-		this.map = FXCollections.observableArrayList();
+		this.map = FXCollections.observableArrayList(
+				new Callback<Block, Observable[]>() {
+                    @Override
+                    public Observable[] call(Block bloc) {
+                        return new Observable[]{
+                                bloc.indiceProperty()
+                        };
+                    }
+                }
+        );
 		BufferedReader file;
 		try {
-
-			file = new BufferedReader(new FileReader("src/Map2.csv"));
+			file = new BufferedReader(new FileReader("src/"+nomFichierMap));
 			try {
 				while (file.ready()) {
 					try {
@@ -28,9 +46,11 @@ public class Map {
 						mapheight++;
 						String line=file.readLine();
 						String[] parts= line.split(",");
+						int j=0;
 						if(parts.length!=1) {
 							for(int i=0; i<parts.length;i++) {
-							this.map.add(new Block(parts[i]));
+							this.map.add(new Block(parts[i],j));
+							j++;
 							}
 						}
 						
@@ -51,7 +71,7 @@ public class Map {
 	public void sauvegarderMap() {
         try {
         	//Dans le fichier csv, on place les ids des blocks et on place une virgule.
-            File file = new File("src/vue/Map2.csv");
+            File file = new File("src/vue/Map.csv");
             FileWriter fileWriter = new FileWriter(file, false);
             String changements = "";
             int i = 1;
@@ -67,13 +87,17 @@ public class Map {
             e.printStackTrace();
         }
     }
-	
-	public Block getBlock (int indice) {
-	        return this.map.get(indice);
+											//Setter//
+	public void setBlock(int indice, Block block) {
+		this.map.set(indice, block);
+											//Getter//
 	}
-	
 	public ObservableList<Block> getMap() {
 	        return this.map;
+	}
+	
+	public Block getBlock (int indice) {
+        return this.map.get(indice);
 	}
 	
 	public int getMapWidth() {
@@ -83,6 +107,10 @@ public class Map {
 	public int getMapHeight() {
 		return this.mapheight;
 	}
-
+	
+	public int calculationIndex(double x, double y) {
+		return (int) (((int)(y/TAILLE_BLOC))*NBR_BLOC_LARGEUR+(x/TAILLE_BLOC));
+	}
 
 }
+
