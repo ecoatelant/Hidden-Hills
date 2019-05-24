@@ -34,9 +34,6 @@ public class ControleurMap implements Initializable {
     @FXML
     private ImageView imgVi;
     
-    @FXML
-    private Pane paneVueJoueur;
-    
     //Déclaration du PP
     private Personnage p = new Personnage();
     
