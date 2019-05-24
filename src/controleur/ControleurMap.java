@@ -12,6 +12,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
 import javafx.animation.Timeline;
@@ -33,6 +34,9 @@ public class ControleurMap implements Initializable {
 
     @FXML
     private ImageView imgVi;
+    
+    @FXML
+    private Pane paneVueJoueur;
     
     //Déclaration du PP
     private Personnage p = new Personnage();
@@ -162,14 +166,14 @@ public class ControleurMap implements Initializable {
 			public void handle(long l) {
 				if(lastUpdateTime>0) {
 					int dx = 0, dy = 0;
-					if (north) dy -= 8;
-					if (south) dy += 8;
+					if (north) dy -= 150;
+					if (south) dy += 150;
 					if (east) {
-						dx += 8;
+						dx += 150;
 						imgVi.setImage(new Image("file:src/img/perso-right.png"));
 					}
 					if (west) {
-						dx -= 8;
+						dx -= 150;
 						imgVi.setImage(new Image("file:src/img/persoMod.png"));
 					}
 			

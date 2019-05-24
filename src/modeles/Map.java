@@ -19,8 +19,10 @@ public class Map {
 	private int mapheight;
 	
 	//Déclaration des tailles sur la map
-    public final static int NBR_BLOC_LARGEUR = 350;
-    public final static int NBR_BLOC_HAUTEUR = 80;
+    public final static int NBR_BLOC_LARGEUR = 60;
+    public final static int NBR_BLOC_HAUTEUR = 40;
+    public final static int NBR_BLOC_LARGEUR_VISION = 60;
+    public final static int NBR_BLOC_HAUTEUR_VISION = 40;
     final static int TAILLE_BLOC = 32; //Les blocs sont carrés en 32 pixels
 
 	public Map () {

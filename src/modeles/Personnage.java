@@ -17,7 +17,7 @@ public class Personnage extends Map {
 	public Personnage() {
 		this.xProperty = new SimpleDoubleProperty(0);
 		this.yProperty = new SimpleDoubleProperty(0);
-		move(((NBR_BLOC_LARGEUR/2)-1)*TAILLE_BLOC,0);
+		move(((NBR_BLOC_LARGEUR/2)-1)*TAILLE_BLOC,1600);
 	}
 	
 	//Getter/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

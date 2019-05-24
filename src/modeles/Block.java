@@ -15,7 +15,7 @@ public class Block {
         String chemin = "file:src/img/";
         this.collision=true;
         switch (id) {
-            case "5":
+            case "3":
                 chemin = chemin + "fond.png";
                 this.collision=false;
                 break; 
@@ -34,7 +34,7 @@ public class Block {
             case "13":
                 chemin = chemin + "stone.jpg";
                 break;
-            case "15":
+            case "5":
                 chemin = chemin + "wood.jpg";
                 this.collision=false;
                 break;
