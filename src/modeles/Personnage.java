@@ -11,13 +11,16 @@ public class Personnage extends Map {
 	private DoubleProperty xProperty;
 	private DoubleProperty yProperty;
 	private Map collisionMap;
+	private Inventaire inventory;
     final static int PERSO_LARGEUR = 32;
     final static int PERSO_HAUTEUR = 64;
 											//Constructeur//
-	public Personnage() {
+	public Personnage(Map collisionMap , Inventaire inventory) {
 		this.pv=100;
 		this.xProperty = new SimpleDoubleProperty(32);
-		this.yProperty = new SimpleDoubleProperty(32);
+		this.yProperty = new SimpleDoubleProperty(150);
+		this.collisionMap = collisionMap;
+		this.inventory = inventory;
 	}
 	
 	public void move(double newX, double newY) {
@@ -27,7 +30,6 @@ public class Personnage extends Map {
 	
 	//Retourne s'il y a collision à l'endroit où le personnage se trouve + nouveaux X et Y.
 	public boolean colision(int newX, int newY) {
-		Map map = new Map();
 			//Regard angle gauche haut
 			if(collisionMap.getBlock(calculationIndex((getX()+newX),(getY()+newY))).getColision()) {
 				return true;
@@ -51,15 +53,19 @@ public class Personnage extends Map {
 			
 	}
 	
-	public void saut (boolean isOnGround, int hauteurSaut , int dy) {
+	public void saut (int hauteurSaut , int dy) {
 		
-		if (isOnGround) {
+		if (dy < -hauteurSaut) {
+			dy--;
+		}
+		
+		else if (dy == -hauteurSaut) {
 			dy++;
 		}
 		
-		/*else if () {
-			
-		}*/
+		else if (dy>-hauteurSaut) {
+			dy++;
+		}
 	}
 	
 	public void perteVie(int attaque) {

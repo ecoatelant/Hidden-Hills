@@ -19,7 +19,7 @@ public class Map {
 	private int mapheight;
 	
 	//Déclaration des tailles sur la map
-	private static String nomFichierMap = "Map2";
+	private static String nomFichierMap = "Map";
     public final static int NBR_BLOC_LARGEUR = 60;
     public final static int NBR_BLOC_HAUTEUR = 40;
     public final static int NBR_BLOC_LARGEUR_VISION = 60;
