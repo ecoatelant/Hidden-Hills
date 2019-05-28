@@ -18,28 +18,28 @@ public class Block {
         String chemin = "file:src/img/";
         this.colision=true;
         switch (id) {
-            case "-1":
+            case "3":
                 chemin = chemin + "fond.png";
                 this.colision=false;
                 break; 
             case "7":
                 chemin = chemin + "charcoal.png";
                 break;
-            case "13":
+            case "4":
                 chemin = chemin + "dirt.jpg";
                 break;
             case "6":
                 break; 
-            case "5":
+            case "14":
                 chemin = chemin + "titanium.png";
                 break;
-            case "15":
+            case "8":
                 chemin = chemin + "grass.jpg";
                 break;
-            case "14":
+            case "13":
                 chemin = chemin + "stone.jpg";
                 break;
-            case "3":
+            case "5":
                 chemin = chemin + "wood.jpg";
                 this.colision=false;
                 break;

@@ -1,10 +1,11 @@
 package modeles;
 
+import modeles.Map;
+
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
 public class Personnage extends Map {
-	
 											//Attributs//
 	private int pv;
 	private DoubleProperty xProperty;
@@ -12,13 +13,11 @@ public class Personnage extends Map {
 	private Map collisionMap;
     final static int PERSO_LARGEUR = 32;
     final static int PERSO_HAUTEUR = 64;
-	
 											//Constructeur//
-	public Personnage(Map map) {
+	public Personnage() {
 		this.pv=100;
 		this.xProperty = new SimpleDoubleProperty(32);
 		this.yProperty = new SimpleDoubleProperty(32);
-		collisionMap = map;
 	}
 	
 	public void move(double newX, double newY) {
@@ -74,7 +73,7 @@ public class Personnage extends Map {
 	public int getPV() {
 		return this.pv;
 	}
-	
+				
 	public DoubleProperty xProperty() {
 		return this.xProperty;
 	}
@@ -99,8 +98,13 @@ public class Personnage extends Map {
 		return this.pv<=0;
 	}
 										//Setter//
-	public void setY (double y) {
+	public void setX (double x) {
+		this.xProperty.set(x);
+	}
+
+	public void setY  (double y) {
 		this.yProperty.set(y);
 	}
+
 	
 }

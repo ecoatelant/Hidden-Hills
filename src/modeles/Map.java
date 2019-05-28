@@ -20,11 +20,12 @@ public class Map {
 	
 	//Déclaration des tailles sur la map
 	private static String nomFichierMap = "Map2";
-    final static int NBR_BLOC_LARGEUR = 60;
-    final static int NBR_BLOC_HAUTEUR = 40;
+    public final static int NBR_BLOC_LARGEUR = 60;
+    public final static int NBR_BLOC_HAUTEUR = 40;
+    public final static int NBR_BLOC_LARGEUR_VISION = 60;
+    public final static int NBR_BLOC_HAUTEUR_VISION = 40;
     final static int TAILLE_BLOC = 32; //Les blocs sont carrés en 32 pixels
-	
-    										//Constructeur//
+    											//Constructeur//
 	public Map () {
 		this.map = FXCollections.observableArrayList(
 				new Callback<Block, Observable[]>() {

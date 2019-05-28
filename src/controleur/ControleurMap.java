@@ -1,5 +1,9 @@
 package controleur;
 
+//Importation des classes vue modèle
+import modeles.Personnage;
+import modeles.Block;
+import modeles.Map;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -8,14 +12,10 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import modeles.Personnage;
-import modeles.Block;
-import modeles.Map;
 import java.net.URL;
 import java.time.Duration;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
-import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
@@ -36,11 +36,15 @@ public class ControleurMap implements Initializable {
     @FXML
     private ImageView imgVi;
 
-    //Déclaration du PP et de son aabb
-    private Personnage p ;
 
     private Rectangle aabb = new Rectangle(32,64);
-
+    
+    @FXML
+    private Pane paneVueJoueur;
+    
+    //Déclaration du PP
+    private Personnage p = new Personnage();
+    
     private long lastUpdateTime;
 
     private Map map;
@@ -55,9 +59,6 @@ public class ControleurMap implements Initializable {
     private AnimationTimer timerJump;
     
     private boolean south,east,west,north,jump;
-    
-    
-    
 
   	public void handlePressed(KeyEvent e) {
 
@@ -90,8 +91,7 @@ public class ControleurMap implements Initializable {
           	}
           	break;
           	default: 	break;
-  		}											
-
+		}
   	}
 
 	public void createMap() {
@@ -107,9 +107,20 @@ public class ControleurMap implements Initializable {
 		       
 		}
 	}
-
+	
+	public void affichageMap() {
+		mainPane.setTranslateX(-p.getX()+640);
+		mainPane.setTranslateY(-p.getY());
+	}
+	
+/*	public boolean bordureMap() {
+		if(mainPane.getTranslateX()==0) {
+			return true;
+		}
+	}*/
+	
 	public void createPerso() {
-			p = new Personnage(map);
+			p = new Personnage();
 		  	imgVi = new ImageView ("file:src/img/persoMod.png");
 		  	imgVi.translateXProperty().bind(this.p.xProperty());
 			imgVi.translateYProperty().bind(this.p.yProperty());
@@ -121,6 +132,7 @@ public class ControleurMap implements Initializable {
 			persoPane.setFocusTraversable(true);
 			persoPane.setOnKeyPressed(e -> handlePressed(e));
 			persoPane.setOnKeyReleased(e -> handleRelease(e));
+			
 	}
 	
     public void colision () {
@@ -131,6 +143,7 @@ public class ControleurMap implements Initializable {
 		persoPane.getChildren().add(aabb);
     }
 	
+
 	public void breakBlock() {
 		tilePaneMap.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 		     @Override
@@ -153,7 +166,7 @@ public class ControleurMap implements Initializable {
 				    	   }
 				       }
 	            }
-		 });
+		 });	
 	}
 
 	private void initAnimation() {
@@ -182,7 +195,7 @@ public class ControleurMap implements Initializable {
 						boolean isOnGround = p.colision(dx, 1);
 						//Système de saut
 						if (jump) {
-							p.saut(isOnGround, hauteurSaut);
+							p.saut(isOnGround, hauteurSaut , dy);
 							jump=false;
 						}
 						
@@ -190,7 +203,7 @@ public class ControleurMap implements Initializable {
 						handlerColision(dx, dy);
 						//Pour gérer la gravité
 						handlerGravity(dx);
-					};
+					}
 				}
 		};
 	}
@@ -208,6 +221,7 @@ public class ControleurMap implements Initializable {
 	}
 	
 	public void initialize(URL location, ResourceBundle resources) {
+
 		this.createMap();
 		this.createPerso();   
 		this.initAnimation();
@@ -215,4 +229,5 @@ public class ControleurMap implements Initializable {
 		this.gameLoop.play();
 		this.timer.start();
 	}
+
 }
