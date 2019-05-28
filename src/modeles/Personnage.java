@@ -30,19 +30,19 @@ public class Personnage extends Map {
 	public boolean colision(int newX, int newY) {
 		Map map = new Map();
 			//Regard angle gauche haut
-			if(collisionMap.getBlock(calculationIndex((getX()+newX),(getY()+newY))).getCollision()) {
+			if(collisionMap.getBlock(calculationIndex((getX()+newX),(getY()+newY))).getColision()) {
 				return true;
 			}
 			//Regard angle gauche bas
-			else if (collisionMap.getBlock(calculationIndex((getX()+newX),(getY()+newY)+56)).getCollision()) {
+			else if (collisionMap.getBlock(calculationIndex((getX()+newX),(getY()+newY)+56)).getColision()) {
 				return true;
 			}
 			//Regard angle droit haut
-			else if (collisionMap.getBlock(calculationIndex((getX()+newX)+24,(getY()+newY))).getCollision()) {
+			else if (collisionMap.getBlock(calculationIndex((getX()+newX)+24,(getY()+newY))).getColision()) {
 				return true;
 			}
 			//Regard angle droit bas
-			else if (collisionMap.getBlock(calculationIndex((getX()+newX)+24,(getY()+newY)+56)).getCollision()) {
+			else if (collisionMap.getBlock(calculationIndex((getX()+newX)+24,(getY()+newY)+56)).getColision()) {
 				return true;
 			}
 			//Return
@@ -50,6 +50,17 @@ public class Personnage extends Map {
 				return false;
 			}
 			
+	}
+	
+	public void saut (boolean isOnGround, int hauteurSaut , int dy) {
+		
+		if (isOnGround) {
+			dy++;
+		}
+		
+		/*else if () {
+			
+		}*/
 	}
 	
 	public void perteVie(int attaque) {
@@ -91,4 +102,5 @@ public class Personnage extends Map {
 	public void setY (double y) {
 		this.yProperty.set(y);
 	}
+	
 }

@@ -9,18 +9,18 @@ public class Block {
 	//Ce qui permet un décodage de la map optimal
 	private String id;
 	private String uRI;
-	private IntegerProperty indice=new SimpleIntegerProperty();
-	private boolean collision;
+	private IntegerProperty index;
+	private boolean colision;
 
 	public Block(String id, int ind) {
         this.id = id;
-        this.indice.set(ind);
+        this.index = new SimpleIntegerProperty(ind);
         String chemin = "file:src/img/";
-        this.collision=true;
+        this.colision=true;
         switch (id) {
             case "-1":
                 chemin = chemin + "fond.png";
-                this.collision=false;
+                this.colision=false;
                 break; 
             case "7":
                 chemin = chemin + "charcoal.png";
@@ -41,15 +41,15 @@ public class Block {
                 break;
             case "3":
                 chemin = chemin + "wood.jpg";
-                this.collision=false;
+                this.colision=false;
                 break;
             case "2":
                 chemin = chemin + "four.gif";
-                this.collision=false;
+                this.colision=false;
                 break;
             default:
                 chemin = chemin + "air.png";
-                this.collision=false;
+                this.colision=false;
                 break;
         }
         this.uRI = chemin;
@@ -61,19 +61,19 @@ public class Block {
 	}
 	
 	public int getIndice() {
-		return this.indice.get();
+		return this.index.get();
 	}
 	
 	public String getuRI() {
 		return this.uRI;
 	}
 	
-	public IntegerProperty indiceProperty() {
-		return this.indice;
+	public IntegerProperty indexProperty() {
+		return this.index;
 	}
 	
-	public boolean getCollision() {
-		return this.collision;
+	public boolean getColision() {
+		return this.colision;
 	}
 	
 }

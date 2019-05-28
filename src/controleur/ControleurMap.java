@@ -12,8 +12,10 @@ import modeles.Personnage;
 import modeles.Block;
 import modeles.Map;
 import java.net.URL;
+import java.time.Duration;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
+import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.collections.ListChangeListener;
 import javafx.event.EventHandler;
@@ -49,6 +51,8 @@ public class ControleurMap implements Initializable {
 	private int temps;
 	
     private AnimationTimer timer;
+    
+    private AnimationTimer timerJump;
     
     private boolean south,east,west,north,jump;
     
@@ -119,7 +123,7 @@ public class ControleurMap implements Initializable {
 			persoPane.setOnKeyReleased(e -> handleRelease(e));
 	}
 	
-    public void handlerColision () {
+    public void colision () {
     	aabb.setFill(Color.BLACK);
     	aabb.setOpacity(0.3);
 		aabb.translateXProperty().bind(this.p.xProperty());
@@ -169,18 +173,21 @@ public class ControleurMap implements Initializable {
 							dx += 8;
 						    imgVi.setImage(new Image("file:src/img/perso-right.png"));
 						}
+						
 						if (west) {
 						    dx -= 8;
 						    imgVi.setImage(new Image("file:src/img/persoMod.png"));
 						}
+						int hauteurSaut = 128;
+						boolean isOnGround = p.colision(dx, 1);
+						//Système de saut
 						if (jump) {
-							dy -= 64;
-							
+							p.saut(isOnGround, hauteurSaut);
+							jump=false;
 						}
+						
 						//Pour gérer les colisions
-						if (!p.colision(dx, dy)) {
-							p.move(dx, dy);
-						}
+						handlerColision(dx, dy);
 						//Pour gérer la gravité
 						handlerGravity(dx);
 					};
@@ -188,9 +195,15 @@ public class ControleurMap implements Initializable {
 		};
 	}
 	
+	private void handlerColision (int dx , int dy) {
+		if (!p.colision(dx, dy)) {
+			p.move(dx, dy);
+		}
+	}
+	
 	private void handlerGravity (int dx) {
-		if (!p.colision(dx, 16)) {
-			p.move(dx, 16);
+		if (!p.colision(dx, 8)) {
+			p.move(dx, 8);
 		}
 	}
 	

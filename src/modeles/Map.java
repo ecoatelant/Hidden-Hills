@@ -19,7 +19,7 @@ public class Map {
 	private int mapheight;
 	
 	//Déclaration des tailles sur la map
-	final static String nomFichierMap = "Map.csv";
+	private static String nomFichierMap = "Map2";
     final static int NBR_BLOC_LARGEUR = 60;
     final static int NBR_BLOC_HAUTEUR = 40;
     final static int TAILLE_BLOC = 32; //Les blocs sont carrés en 32 pixels
@@ -31,14 +31,14 @@ public class Map {
                     @Override
                     public Observable[] call(Block bloc) {
                         return new Observable[]{
-                                bloc.indiceProperty()
+                                bloc.indexProperty()
                         };
                     }
                 }
         );
 		BufferedReader file;
 		try {
-			file = new BufferedReader(new FileReader("src/"+nomFichierMap));
+			file = new BufferedReader(new FileReader("src/"+nomFichierMap+".csv"));
 			try {
 				while (file.ready()) {
 					try {
