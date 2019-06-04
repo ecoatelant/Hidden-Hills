@@ -10,7 +10,7 @@
    <center>
       <Pane fx:id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" BorderPane.alignment="CENTER">
          <children>
-            <TilePane fx:id="tilePaneMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefColumns="60" prefHeight="1080" prefRows="32" prefWidth="1920.0" />
+            <TilePane fx:id="tilePaneMap" maxHeight="-Infinity" maxWidth="1920" minHeight="-Infinity" minWidth="-Infinity" prefColumns="60" prefHeight="1080" prefRows="32" prefWidth="1920.0" />
             <Pane fx:id="persoPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" />
             <Pane fx:id="paneVueJoueur" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" />
          </children>

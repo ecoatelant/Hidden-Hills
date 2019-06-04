@@ -39,7 +39,7 @@ public class Map {
         );
 		BufferedReader file;
 		try {
-			file = new BufferedReader(new FileReader(nomFichierMap+".csv"));
+			file = new BufferedReader(new FileReader("src/"+nomFichierMap+".csv"));
 			try {
 				while (file.ready()) {
 					try {
@@ -100,12 +100,24 @@ public class Map {
         return this.map.get(indice);
 	}
 	
+	//Retourne la taille en largeur de la map en nombre de blocs
 	public int getMapWidth() {
 		return this.mapwidth;
 	}
 	
+	//Retourne la taille en hauteur de la map en nombre de blocs
 	public int getMapHeight() {
 		return this.mapheight;
+	}
+	
+	//Retourne la taille en largeur de la map en pixels
+	public int getMapWidthPX() {
+		return this.mapwidth*32;
+	}
+		
+	//Retourne la taille en hauteur de la map en pixels
+	public int getMapHeightPX() {
+		return this.mapheight*32;
 	}
 	
 	public int calculationIndex(double x, double y) {

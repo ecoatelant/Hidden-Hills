@@ -50,7 +50,6 @@ public class ControleurMap implements Initializable {
 
 	private Timeline gameLoop;
 
-	@SuppressWarnings("unused")
 	private int temps;
 	
     private AnimationTimer timer;
@@ -58,6 +57,10 @@ public class ControleurMap implements Initializable {
     private boolean south,east,west,north,jump;
     
     private Inventaire inventory;
+    
+    //Saut
+    private static int TIMER_JUMP_VALUE = 10;
+    private static double VITESSE_SAUT = -16;
     
   //Déclaration du PP
     private Personnage p;
@@ -77,6 +80,11 @@ public class ControleurMap implements Initializable {
           	case D:  
           		east=true;
           		break;
+          	case SPACE:
+          		if(!jump) {
+					jump = true;
+          		}
+          	break;
           	default:
           		break;
   		}
@@ -88,10 +96,7 @@ public class ControleurMap implements Initializable {
   			case S:  south = false; break;
           	case Q:  west  = false; break;
           	case D:  east  = false; break;
-          	case SPACE:	if(!jump) {
-          					jump = true;
-          	}
-          	break;
+          	case SPACE:	jump = false; break;
           	default: 	break;
 		}
   	}
@@ -111,20 +116,25 @@ public class ControleurMap implements Initializable {
 	}
 	
 	public void affichageMap() {
-		mainPane.setTranslateX(-p.getX()+640);
-		mainPane.setTranslateY(-p.getY()+700);
-	}
-	
-/*	public boolean bordureMap() {
-		if(mainPane.getTranslateX()==0) {
-			return true;
+		final int placementPersoX = 640;
+		final int placementPersoY = 700;
+		//Gestion des bordures en largeur
+		if(p.getX()+(map.getMapWidthPX()-placementPersoX)<=map.getMapWidthPX()
+				&& p.getX()-placementPersoX>=0) {
+			mainPane.setTranslateX(-p.getX()+placementPersoX);
 		}
-	}*/
+		//Gestion des bordures en hauteur
+		//TO-DO: trouver à quoi correspond 378 -> map.getMapHeightPX()-p.getY() au départ? NON
+		if(p.getY()+378<=map.getMapHeightPX()
+				&& p.getY()-placementPersoY>=0){
+			mainPane.setTranslateY(-p.getY()+placementPersoY);	
+		}
+	}	
 	
 	public void createPerso() {
 			this.inventory=new Inventaire();
 			p = new Personnage(this.map, this.inventory);
-		  	imgVi = new ImageView ("file:img/persoMod.png");
+		  	imgVi = new ImageView ("file:src/img/persoMod.png");
 		  	imgVi.translateXProperty().bind(this.p.xProperty());
 			imgVi.translateYProperty().bind(this.p.yProperty());
 			imgVi.setFocusTraversable(true);
@@ -160,8 +170,9 @@ public class ControleurMap implements Initializable {
 		         if (x<p.xProperty().get()/32-5 || x>p.xProperty().get()/32+5 || y<p.yProperty().get()/32-5 || y>p.yProperty().get()/32+6) {
 		        	 System.out.println("Trop loin pour placer/casser");
 		         }
-		         if(map.getBlock(y*60+x).getId()=="0") {}//Si on essaye de casser la ou il y a un bloc d'air
-		         else if (event.getButton()==MouseButton.PRIMARY) {//Casser blocs
+		         else {
+		         if (event.getButton()==MouseButton.PRIMARY) {//Casser blocs
+		        	 if(map.getBlock(y*60+x).getId().equals(airBlock.getId())) {}//Si on essaye de casser la ou il y a un bloc d'air
 		        	 Block workBlock=map.getBlock(y*60+x);//bloc qui a été retiré
 		        	 map.setBlock(y*60+x,airBlock);
 		        	 int i=0;
@@ -194,7 +205,7 @@ public class ControleurMap implements Initializable {
 		        	 }
 		         }            
 		     }	
-		});
+		}});
 
 		}
 
@@ -213,26 +224,33 @@ public class ControleurMap implements Initializable {
 						if (south) dy += 8;
 						if (east) {
 							dx += 8;
-						    imgVi.setImage(new Image("file:img/perso-right.png"));
+						    imgVi.setImage(new Image("file:src/img/perso-right.png"));
 						}
 						
 						if (west) {
 						    dx -= 8;
-						    imgVi.setImage(new Image("file:img/persoMod.png"));
+						    imgVi.setImage(new Image("file:src/img/persoMod.png"));
 						}
-						int hauteurSaut = 128;
+						
 						//Système de saut
 						if (jump) {
-							p.move(0, -128);
-							jump=false;
+							int timer = 2;
+							for()
+							p.move(0, VITESSE_SAUT);
+							timer--;
+							System.out.println(timer);
+							if(timer <= 0) {
+								jump=false;
+								timer = 2;
+							}
 						}
 						
 						//Pour gérer les colisions
 						handlerColision(dx, dy);
 						//Pour gérer la gravité
 						handlerGravity(dx);
+						affichageMap();
 					}
-					affichageMap();
 				}
 		};
 	}
@@ -250,19 +268,20 @@ public class ControleurMap implements Initializable {
 	}
 	
 	public void initialize(URL location, ResourceBundle resources) {
-		this.createMap();
-		this.createPerso();   
-		this.initAnimation();
-		this.airBlock=map.getBlock(0);
-		this.breakBlock();
-		this.gameLoop.play();
-		this.timer.start();
+		createMap();
+		createPerso();  
+		initAnimation();
+		airBlock=map.getBlock(0);
+		breakBlock();
+		gameLoop.play();
+		timer.start();
 		paneVueJoueur.setMouseTransparent(true);
-		/*Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+		paneVueJoueur.setFocusTraversable(true);
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 		    public void run() {
 		        map.sauvegarderMap();
 		    }
-		}));*/
+		}));
 	}
 
 }

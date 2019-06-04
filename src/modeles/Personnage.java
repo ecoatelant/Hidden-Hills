@@ -17,7 +17,7 @@ public class Personnage extends Map {
 											//Constructeur//
 	public Personnage(Map collisionMap , Inventaire inventory) {
 		this.pv=100;
-		this.xProperty = new SimpleDoubleProperty(32);
+		this.xProperty = new SimpleDoubleProperty(640);
 		this.yProperty = new SimpleDoubleProperty(150);
 		this.collisionMap = collisionMap;
 		this.inventory = inventory;
