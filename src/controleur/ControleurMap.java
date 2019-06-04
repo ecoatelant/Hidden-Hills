@@ -14,8 +14,6 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
@@ -65,7 +63,6 @@ public class ControleurMap implements Initializable {
     private Inventaire inventory;
     
     //Saut
-    private static int TIMER_JUMP_VALUE = 10;
     private static double VITESSE_SAUT = -16;
     
   //Déclaration du PP
@@ -122,7 +119,6 @@ public class ControleurMap implements Initializable {
 	}
 	
 	public void affichageMap() {
-<<<<<<< HEAD
 		final int placementPersoX = 640;
 		final int placementPersoY = 700;
 		//Gestion des bordures en largeur
@@ -134,16 +130,7 @@ public class ControleurMap implements Initializable {
 		//TO-DO: trouver à quoi correspond 378 -> map.getMapHeightPX()-p.getY() au départ? NON
 		if(p.getY()+378<=map.getMapHeightPX()
 				&& p.getY()-placementPersoY>=0){
-			mainPane.setTranslateY(-p.getY()+placementPersoY);	
-=======
-		scrollingPane.setTranslateX(-p.getX()+640);
-		scrollingPane.setTranslateY(-p.getY()+700);
-	}
-	
-/*	public boolean bordureMap() {
-		if(mainPane.getTranslateX()==0) {
-			return true;
->>>>>>> 68dac559aadd7aaf10a5dfe089764aaaf6ed01d1
+			mainPane.setTranslateY(-p.getY()+placementPersoY);
 		}
 	}	
 	
@@ -225,7 +212,7 @@ public class ControleurMap implements Initializable {
 				        	}
 	                    }
 	        	});
-<<<<<<< HEAD
+
 		tilePaneMap.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 		     @Override
 		     public void handle(MouseEvent event) {
@@ -272,7 +259,7 @@ public class ControleurMap implements Initializable {
 		     }	
 		}});
 
-=======
+
 		}
 	public void handlerInventory() {
 		inventory.getInventory().addListener(new ListChangeListener< Item>() {
@@ -284,7 +271,6 @@ public class ControleurMap implements Initializable {
 					}
 				}
 			});
->>>>>>> 68dac559aadd7aaf10a5dfe089764aaaf6ed01d1
 		}
 
 	private void initAnimation() {
@@ -313,7 +299,6 @@ public class ControleurMap implements Initializable {
 						//Système de saut
 						if (jump) {
 							int timer = 2;
-							for()
 							p.move(0, VITESSE_SAUT);
 							timer--;
 							System.out.println(timer);
@@ -347,24 +332,17 @@ public class ControleurMap implements Initializable {
 
 	public void initialize(URL location, ResourceBundle resources) {
 		createMap();
-<<<<<<< HEAD
-		createPerso();  
-=======
-		createPerso();   
->>>>>>> 68dac559aadd7aaf10a5dfe089764aaaf6ed01d1
+		createPerso();
 		initAnimation();
 		airBlock=map.getBlock(0);
 		breakBlock();
 		gameLoop.play();
 		timer.start();
-<<<<<<< HEAD
 		paneVueJoueur.setMouseTransparent(true);
 		paneVueJoueur.setFocusTraversable(true);
-=======
 		inventoryBar.setMouseTransparent(false);
 		handlerInventory();
 		paneVueJoueur.setMouseTransparent(true);
->>>>>>> 68dac559aadd7aaf10a5dfe089764aaaf6ed01d1
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 		    public void run() {
 		        map.sauvegarderMap();
