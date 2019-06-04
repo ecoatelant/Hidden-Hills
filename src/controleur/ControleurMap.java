@@ -258,9 +258,8 @@ public class ControleurMap implements Initializable {
 		         }            
 		     }	
 		}});
-
-
 		}
+	
 	public void handlerInventory() {
 		inventory.getInventory().addListener(new ListChangeListener< Item>() {
 			@Override

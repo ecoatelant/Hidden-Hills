@@ -19,7 +19,7 @@ public class Map {
 	private int mapheight;
 	
 	//Déclaration des tailles sur la map
-	private static String nomFichierMap = "Map (copie)";
+	private static String nomFichierMap = "Map";
     public final static int NBR_BLOC_LARGEUR = 60;
     public final static int NBR_BLOC_HAUTEUR = 40;
     public final static int NBR_BLOC_LARGEUR_VISION = 60;
@@ -39,7 +39,7 @@ public class Map {
         );
 		BufferedReader file;
 		try {
-			file = new BufferedReader(new FileReader("Hidden-Hills/src/"+nomFichierMap+".csv"));
+			file = new BufferedReader(new FileReader("src/"+nomFichierMap+".csv"));
 			try {
 				while (file.ready()) {
 					try {

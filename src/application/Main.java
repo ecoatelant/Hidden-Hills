@@ -12,7 +12,7 @@ public class Main extends Application {
 	public void start(Stage primaryStage) {
 		try {
 			primaryStage.setTitle("Hidden Hills");
-			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("src/vue/Sample.fxml"));
+			BorderPane root = (BorderPane)FXMLLoader.load(getClass().getResource("../vue/Sample.fxml"));
 			Scene scene = new Scene(root,1920,1280);
 			primaryStage.setScene(scene);
 			primaryStage.show();
