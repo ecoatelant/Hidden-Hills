@@ -7,5 +7,10 @@ public class BlockItem extends Item{
 	}  
 	public void useItem(int indice, Map map) {
 			map.setBlock(indice,new Block(this.getId(),indice));
-	} 
+	}
+	@Override
+	public String getItemURI() {
+		return new Block(this.getId(),0).getuRI();
+	}
+
 }

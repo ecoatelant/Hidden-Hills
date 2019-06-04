@@ -15,7 +15,7 @@ public class Block {
 	public Block(String id, int ind) {
         this.id = id;
         this.index = new SimpleIntegerProperty(ind);
-        String chemin = "file:img/";
+        String chemin = "file:src/img/";
         this.colision=true;
         switch (id) {
             case "-1":

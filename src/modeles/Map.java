@@ -39,7 +39,7 @@ public class Map {
         );
 		BufferedReader file;
 		try {
-			file = new BufferedReader(new FileReader(nomFichierMap+".csv"));
+			file = new BufferedReader(new FileReader("src/"+nomFichierMap+".csv"));
 			try {
 				while (file.ready()) {
 					try {
@@ -71,13 +71,13 @@ public class Map {
 	public void sauvegarderMap() {
         try {
         	//Dans le fichier csv, on place les ids des blocks et on place une virgule.
-            File file = new File("src/vue/Map.csv");
+            File file = new File("src/"+nomFichierMap+".csv");
             FileWriter fileWriter = new FileWriter(file, false);
             String changements = "";
             int i = 1;
             for (Block t : map) {
                 changements = changements + t.getId()+",";
-                if (i%this.map.size() ==0)
+                if (i%this.mapwidth==0)
                     changements = changements + "\n";
                 i++;
             }
