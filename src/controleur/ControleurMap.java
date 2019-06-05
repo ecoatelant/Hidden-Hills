@@ -56,8 +56,6 @@ public class ControleurMap implements Initializable {
     private Map map;
 
 	private Timeline gameLoop;
-
-	private int temps;
 	
     private AnimationTimer timer;
     
@@ -67,8 +65,7 @@ public class ControleurMap implements Initializable {
     
     private Inventaire inventory;
     
-    //Saut
-    private static double VITESSE_SAUT = -16;
+    private static int VITESSE_SAUT = -16;
     
   //Déclaration du PP
     private Personnage p;
@@ -90,10 +87,8 @@ public class ControleurMap implements Initializable {
           		east=true;
           		break;
           	case SPACE:
-          		if (p.colision((int) p.getX(), 8)) {
           			compteurSaut++;
               		System.out.println(compteurSaut);
-          		}
           	break;
           	default:
           		break;
@@ -127,20 +122,33 @@ public class ControleurMap implements Initializable {
 		}
 	}
 	
+	public boolean bordWidth(int x) {
+		return p.getX()+(map.getMapWidthPX()-x)<=map.getMapWidthPX() && p.getX()-x>=0;
+	}
+	
+	public boolean bordHeight(int y) {
+		//TO-DO: trouver à quoi correspond 378 -> map.getMapHeightPX()-p.getY() au départ? NON
+		return p.getY()+378<=map.getMapHeightPX()
+				&& p.getY()-y>=0;
+	}
+	
 	public void affichageMap() {
 		final int placementPersoX = 640;
 		final int placementPersoY = 700;
 		//Gestion des bordures en largeur
-		if(p.getX()+(map.getMapWidthPX()-placementPersoX)<=map.getMapWidthPX()
-				&& p.getX()-placementPersoX>=0) {
+		if(bordWidth(placementPersoX)) {
 			mainPane.setTranslateX(-p.getX()+placementPersoX);
 		}
 		//Gestion des bordures en hauteur
 		//TO-DO: trouver à quoi correspond 378 -> map.getMapHeightPX()-p.getY() au départ? NON
+
 		if(p.getY()+378<=map.getMapHeightPX() && p.getY()-placementPersoY>=0){
+
+		if(bordHeight(placementPersoY)){
 			mainPane.setTranslateY(-p.getY()+placementPersoY);
 		}
-	}	
+		}
+	}
 	
 	public void createPerso() {
 			this.inventory=new Inventaire();
@@ -224,10 +232,10 @@ public class ControleurMap implements Initializable {
 	private void initAnimation() {
 		lastUpdateTime=1;
 		gameLoop = new Timeline();
-		temps=0;
 		gameLoop.setCycleCount(Timeline.INDEFINITE);
 		timer= new AnimationTimer() {
 
+				@SuppressWarnings("deprecation")
 				@Override
 				public void handle(long l) {
 					if(lastUpdateTime>0) {
@@ -236,28 +244,31 @@ public class ControleurMap implements Initializable {
 						if (south) dy += 8;
 						if (east) {
 							dx += 8;
-						    imgVi.setImage(new Image("file:src/img/perso-right.png"));
+							if (!imgVi.getImage().impl_getUrl().equals("file:src/img/perso-right.png")) {
+								imgVi.setImage(new Image("file:src/img/perso-right.png"));
+						    }
+						    
 						}
 
 						if (west) {
 						    dx -= 8;
-						    imgVi.setImage(new Image("file:src/img/persoMod.png"));
+						    if (!imgVi.getImage().impl_getUrl().equals("file:src/img/persoMod.png")) {
+						    	imgVi.setImage(new Image("file:src/img/persoMod.png"));
+						    }
 						}
 
 						//Système de saut
 						if (compteurSaut==1) {
 							int timer = 2;
-							//if (!limiteSaut(16)) {
 								p.move(0, VITESSE_SAUT);
 								timer--;
-							//}
 							if(timer <= 0) {
-									timer = 2;
-									compteurSaut=0;
+								timer = 2;
+								compteurSaut=0;
 							}
 						}
 						
-						//Pour gérer les colisions
+						//Pour gérer les collisions
 						handlerColision(dx, dy);
 						
 						//Pour gérer la gravité
@@ -269,14 +280,6 @@ public class ControleurMap implements Initializable {
 				}
 		};
 	}
-	/*private boolean limiteSaut (int hauteurSaut) {
-		if (p.getY() {
-			return true;
-		}
-		else {
-			return false;
-		}
-	}*/
 	
 	private void handlerColision (int dx , int dy) {
 		if (!p.colision(dx, dy)) {

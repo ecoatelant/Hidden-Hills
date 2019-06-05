@@ -33,4 +33,12 @@ public class Inventaire {
 	public boolean isHandEmpty() {
 		return this.handIsEmpty;
 	}
+	
+	public void crafting(Item craft) {
+		if(craft.ressourcesPresentes(this.inventory)) {
+			inventory.add(craft);
+			//TO-DO: supprimer les ressources utilisés pour crafter
+		}
+	}
+	
 }

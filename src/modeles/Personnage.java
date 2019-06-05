@@ -5,7 +5,7 @@ import modeles.Map;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 
-public class Personnage extends Map {
+public class Personnage {
 											//Attributs//
 	private int pv;
 	private DoubleProperty xProperty;
@@ -14,6 +14,14 @@ public class Personnage extends Map {
 	private Inventaire inventory;
     final static int PERSO_LARGEUR = 32;
     final static int PERSO_HAUTEUR = 64;
+    
+    //Taille de la map
+    public final static int NBR_BLOC_LARGEUR = 60;
+    public final static int NBR_BLOC_HAUTEUR = 40;
+    public final static int TAILLE_BLOC = 32; //Les blocs sont carrés en 32 pixels
+    
+  //Saut
+    private static double VITESSE_SAUT = -16;
 											//Constructeur//
 	public Personnage(Map collisionMap , Inventaire inventory) {
 		this.pv=100;
@@ -28,7 +36,7 @@ public class Personnage extends Map {
 		this.yProperty.set(this.yProperty.get() + newY);
 	}
 	
-	//Retourne s'il y a collision à l'endroit où le personnage se trouve + nouveaux X et Y.
+	//Retourne s'il y a collision à l'endroit où le personnage se trouve + nouveaux X / Y.
 	public boolean colision(int newX, int newY) {
 			//Regard angle gauche haut
 			if(collisionMap.getBlock(calculationIndex((getX()+newX),(getY()+newY))).getColision()) {
@@ -55,9 +63,9 @@ public class Personnage extends Map {
 	
 	//saut env 2-3blocs
 	//(mètres par seconde au carré). Par exemple, l'accélération normale de la pesanteur vaut 9,806 65 m/s2
-	public void saut (int hauteurSaut , int dy) {
-		//TO DO or TO FORGET
-	}
+	public void Saut() {
+      
+    }
 	
 	public void perteVie(int attaque) {
 		this.pv=-attaque;
@@ -87,7 +95,7 @@ public class Personnage extends Map {
 		return this.yProperty.get();
 	}
 	
-	public int getIndexSprite() {
+	public int getIndex() {
 		return (int) (((int) (getY()/TAILLE_BLOC))*NBR_BLOC_LARGEUR+(getX()/TAILLE_BLOC));
 	}
 	
@@ -101,6 +109,10 @@ public class Personnage extends Map {
 
 	public void setY  (double y) {
 		this.yProperty.set(y);
+	}
+	
+	public int calculationIndex(double x, double y) {
+		return (int) (((int)(y/TAILLE_BLOC))*NBR_BLOC_LARGEUR+(x/TAILLE_BLOC));
 	}
 
 	
