@@ -115,18 +115,26 @@ public class ControleurMap implements Initializable {
 		}
 	}
 	
+	public boolean bordWidth(int x) {
+		return p.getX()+(map.getMapWidthPX()-x)<=map.getMapWidthPX() && p.getX()-x>=0;
+	}
+	
+	public boolean bordHeight(int y) {
+		//TO-DO: trouver à quoi correspond 378 -> map.getMapHeightPX()-p.getY() au départ? NON
+		return p.getY()+378<=map.getMapHeightPX()
+				&& p.getY()-y>=0;
+	}
+	
 	public void affichageMap() {
 		final int placementPersoX = 640;
 		final int placementPersoY = 700;
 		//Gestion des bordures en largeur
-		if(p.getX()+(map.getMapWidthPX()-placementPersoX)<=map.getMapWidthPX()
-				&& p.getX()-placementPersoX>=0) {
+		if(bordWidth(placementPersoX)) {
 			mainPane.setTranslateX(-p.getX()+placementPersoX);
 		}
 		//Gestion des bordures en hauteur
 		//TO-DO: trouver à quoi correspond 378 -> map.getMapHeightPX()-p.getY() au départ? NON
-		if(p.getY()+378<=map.getMapHeightPX()
-				&& p.getY()-placementPersoY>=0){
+		if(bordHeight(placementPersoY)){
 			mainPane.setTranslateY(-p.getY()+placementPersoY);
 		}
 	}	
