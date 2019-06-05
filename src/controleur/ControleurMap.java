@@ -62,9 +62,6 @@ public class ControleurMap implements Initializable {
     
     private Inventaire inventory;
     
-    //Saut
-    private static double VITESSE_SAUT = -16;
-    
   //Déclaration du PP
     private Personnage p;
 
@@ -297,21 +294,14 @@ public class ControleurMap implements Initializable {
 						
 						//Système de saut
 						if (jump) {
-							int timer = 2;
-							p.move(0, VITESSE_SAUT);
-							timer--;
-							System.out.println(timer);
-							if(timer <= 0) {
-								jump=false;
-								timer = 2;
-							}
+							
 						}
 						
 						//Pour gérer les colisions
 						handlerColision(dx, dy);
 						//Pour gérer la gravité
 						handlerGravity(dx);
-						affichageMap();
+						affichageMap(); //add listener
 					}
 				}
 		};
