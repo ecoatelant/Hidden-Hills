@@ -17,7 +17,7 @@ public class Personnage extends Map {
 											//Constructeur//
 	public Personnage(Map collisionMap , Inventaire inventory) {
 		this.pv=100;
-		this.xProperty = new SimpleDoubleProperty(32);
+		this.xProperty = new SimpleDoubleProperty(640);
 		this.yProperty = new SimpleDoubleProperty(150);
 		this.collisionMap = collisionMap;
 		this.inventory = inventory;
@@ -56,7 +56,7 @@ public class Personnage extends Map {
 	//saut env 2-3blocs
 	//(mètres par seconde au carré). Par exemple, l'accélération normale de la pesanteur vaut 9,806 65 m/s2
 	public void saut (int hauteurSaut , int dy) {
-		
+		//TO DO or TO FORGET
 	}
 	
 	public void perteVie(int attaque) {

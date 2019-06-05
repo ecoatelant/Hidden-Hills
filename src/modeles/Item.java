@@ -22,6 +22,7 @@ public abstract class Item {
 		return false;
 		}	
 	public abstract void useItem(int indice, Map map);
+	public abstract String getItemURI();
 	
 	public void addUse() {
 		this.nb++;

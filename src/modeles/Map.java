@@ -19,7 +19,7 @@ public class Map {
 	private int mapheight;
 	
 	//Déclaration des tailles sur la map
-	private static String nomFichierMap = "Map2";
+	private static String nomFichierMap = "Map";
     public final static int NBR_BLOC_LARGEUR = 60;
     public final static int NBR_BLOC_HAUTEUR = 40;
     public final static int NBR_BLOC_LARGEUR_VISION = 60;
@@ -71,13 +71,14 @@ public class Map {
 	public void sauvegarderMap() {
         try {
         	//Dans le fichier csv, on place les ids des blocks et on place une virgule.
-            File file = new File("src/vue/"+nomFichierMap+".csv");
+            File file = new File("src/"+nomFichierMap+".csv");
             FileWriter fileWriter = new FileWriter(file, false);
             String changements = "";
             int i = 1;
             for (Block t : map) {
                 changements = changements + t.getId()+",";
                 if (i%this.mapwidth ==0)
+                if (i%this.mapwidth==0)
                     changements = changements + "\n";
                 i++;
             }
@@ -100,12 +101,24 @@ public class Map {
         return this.map.get(indice);
 	}
 	
+	//Retourne la taille en largeur de la map en nombre de blocs
 	public int getMapWidth() {
 		return this.mapwidth;
 	}
 	
+	//Retourne la taille en hauteur de la map en nombre de blocs
 	public int getMapHeight() {
 		return this.mapheight;
+	}
+	
+	//Retourne la taille en largeur de la map en pixels
+	public int getMapWidthPX() {
+		return this.mapwidth*32;
+	}
+		
+	//Retourne la taille en hauteur de la map en pixels
+	public int getMapHeightPX() {
+		return this.mapheight*32;
 	}
 	
 	public int calculationIndex(double x, double y) {

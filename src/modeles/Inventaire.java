@@ -22,8 +22,12 @@ public class Inventaire {
 		handIsEmpty=true;
 	}
 	public void add(Item Item) {
-		this.inventory.add(Item);
-		handIsEmpty=false;
+		if(this.getInventory().size()==40)
+			System.out.println("Erreur : inventaire plein");
+		else {
+			this.inventory.add(Item);
+			handIsEmpty=false;
+		}
 
 	}
 	public boolean isHandEmpty() {

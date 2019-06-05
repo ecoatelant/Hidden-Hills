@@ -40,6 +40,15 @@ public class ControleurMap implements Initializable {
     @FXML
     private Pane paneVueJoueur;
     
+    @FXML
+    private TilePane inventoryBar;
+    
+    @FXML
+    private Pane scrollingPane;
+    
+    @FXML
+    private Pane fixedPane;
+    
     private long lastUpdateTime;
     
     private Block airBlock;
@@ -48,18 +57,23 @@ public class ControleurMap implements Initializable {
 
 	private Timeline gameLoop;
 
-	@SuppressWarnings("unused")
 	private int temps;
 	
     private AnimationTimer timer;
     
-    private boolean south,east,west,north,jump;
+    private boolean south,east,west,north;
+    
+    private int compteurSaut = 0;
     
     private Inventaire inventory;
+    
+    //Saut
+    private static double VITESSE_SAUT = -16;
     
   //Déclaration du PP
     private Personnage p;
 
+    //Déplacement en ZQSD
   	public void handlePressed(KeyEvent e) {
 
   		switch (e.getCode()) {
@@ -75,6 +89,12 @@ public class ControleurMap implements Initializable {
           	case D:  
           		east=true;
           		break;
+          	case SPACE:
+          		if (p.colision((int) p.getX(), 8)) {
+          			compteurSaut++;
+              		System.out.println(compteurSaut);
+          		}
+          	break;
           	default:
           		break;
   		}
@@ -86,10 +106,9 @@ public class ControleurMap implements Initializable {
   			case S:  south = false; break;
           	case Q:  west  = false; break;
           	case D:  east  = false; break;
-          	case SPACE:	if(!jump) {
-          					jump = true;
-          	}
-          	break;
+          	case SPACE:	if (p.colision((int)p.getX(), 16)) compteurSaut = 0;
+          				else while (!p.colision((int)p.getX(),16) && compteurSaut>0) compteurSaut--;
+          				break;
           	default: 	break;
 		}
   	}
@@ -109,15 +128,19 @@ public class ControleurMap implements Initializable {
 	}
 	
 	public void affichageMap() {
-		mainPane.setTranslateX(-p.getX()+640);
-		mainPane.setTranslateY(-p.getY()+700);
-	}
-	
-/*	public boolean bordureMap() {
-		if(mainPane.getTranslateX()==0) {
-			return true;
+		final int placementPersoX = 640;
+		final int placementPersoY = 700;
+		//Gestion des bordures en largeur
+		if(p.getX()+(map.getMapWidthPX()-placementPersoX)<=map.getMapWidthPX()
+				&& p.getX()-placementPersoX>=0) {
+			mainPane.setTranslateX(-p.getX()+placementPersoX);
 		}
-	}*/
+		//Gestion des bordures en hauteur
+		//TO-DO: trouver à quoi correspond 378 -> map.getMapHeightPX()-p.getY() au départ? NON
+		if(p.getY()+378<=map.getMapHeightPX() && p.getY()-placementPersoY>=0){
+			mainPane.setTranslateY(-p.getY()+placementPersoY);
+		}
+	}	
 	
 	public void createPerso() {
 			this.inventory=new Inventaire();
@@ -133,22 +156,10 @@ public class ControleurMap implements Initializable {
 			persoPane.setFocusTraversable(true);
 			persoPane.setOnKeyPressed(e -> handlePressed(e));
 			persoPane.setOnKeyReleased(e -> handleRelease(e));
-			
 	}
 	
 
 	public void breakBlock() {
-		 map.getMap().addListener(new ListChangeListener<Block>(){
-	        	@Override
-				public void onChanged(ListChangeListener.Change<? extends Block> c){
-				        while (c.next()) {	
-				        	if (c.wasReplaced()){
-				        		int indice=c.getFrom();
-					        		tilePaneMap.getChildren().set(indice,new ImageView(new Image(map.getBlock(indice).getuRI())));
-				        		}
-				        	}
-	                    }
-	        	});
 		tilePaneMap.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 		     @Override
 		     public void handle(MouseEvent event) {
@@ -158,64 +169,56 @@ public class ControleurMap implements Initializable {
 		         if (x<p.xProperty().get()/32-5 || x>p.xProperty().get()/32+5 || y<p.yProperty().get()/32-5 || y>p.yProperty().get()/32+6) {
 		        	 System.out.println("Trop loin pour placer/casser");
 		         }
-		         else {
-		         if(map.getBlock(y*60+x).getId().equals(airBlock.getId())) {}//Si on essaye de casser la ou il y a un bloc d'air
-		         else if (event.getButton()==MouseButton.PRIMARY) {//Casser blocs
-		        	 Block workBlock=map.getBlock(y*60+x);//bloc qui a été retiré
-		        	 map.setBlock(y*60+x,airBlock);
-		        	 int i=0;
-		        	 boolean done=false;
-		        	 if(inventory.getInventory().size()>1) {
-			        	 while(done==false && i<inventory.getInventory().size()) {//cas ou le bloc est présent dans l'inventaire, on augmente son compteur
-			         			if(inventory.getInventory().get(i).getId().equals(workBlock.getId())) {
-					         		inventory.getInventory().get(i).addUse();
-					         		done=true;
-			         			}
-			         			i++;
-				         } 
-		        	 }
-	         		 if(done==false){//cas ou le bloc n'est pas présent, on ajoute le bloc à l'inventaire
-	         			Item adBlock=new BlockItem(workBlock.getId());
-	         			inventory.add(adBlock);
-	         		}
-	         		 
-		         }
-		         else if(event.getButton()==MouseButton.SECONDARY) {//Poser bloc en main
-		        	 if(map.getBlock(y*60+x).getId().equals(airBlock.getId())) {
-		        		 if(inventory.getInventory().size()<=1) {
-		        		 }//inventaire vide
-		        		 else {
-				        	 Item item=inventory.getItemInHand();
-				        	 item.useItem(y*60+x,map);
-				        	 if (inventory.getItemInHand().used()) //Dernier bloc utilisé -> Main vide
-								inventory.emptyHand();
-		        		 }
-		        	 }
-		         }            
-		         }	
+		         else {         
+			         if (event.getButton()==MouseButton.PRIMARY) {//Casser blocs
+			        	 if(map.getBlock(y*60+x).getId().equals(airBlock.getId())) {}//Si on essaye de casser la ou il y a un bloc d'air
+			        	 Block workBlock=map.getBlock(y*60+x);//bloc qui a été retiré
+			        	 map.setBlock(y*60+x,airBlock);
+			        	 int i=0;
+			        	 boolean done=false;
+			        	 if(inventory.getInventory().size()>1) {
+				        	 while(done==false && i<inventory.getInventory().size()) {//cas ou le bloc est présent dans l'inventaire, on augmente son compteur
+				         			if(inventory.getInventory().get(i).getId().equals(workBlock.getId())) {
+						         		inventory.getInventory().get(i).addUse();
+						         		done=true;
+				         			}
+				         			i++;
+					         } 
+			        	 }
+		         		 if(done==false){//cas ou le bloc n'est pas présent, on ajoute le bloc à l'inventaire
+		         			Item adBlock=new BlockItem(workBlock.getId());
+		         			inventory.add(adBlock);
+		         		}
+		         		 
+			         } 
+			         else if(event.getButton()==MouseButton.SECONDARY) {//Poser bloc en main
+			        	 if(map.getBlock(y*60+x).getIndice()==0) {}
+			        	 else if(map.getBlock(y*60+x).getId().equals(airBlock.getId())) {
+			        		 if(inventory.getInventory().size()<=1) {
+			        		 }//inventaire vide
+			        		 else {
+					        	 Item item=inventory.getItemInHand();
+					        	 item.useItem(y*60+x,map);
+					        	 if (inventory.getItemInHand().used()) //Dernier bloc utilisé -> Main vide
+									inventory.emptyHand();
+			        		 }
+			        	 }
+			         }            
+			     }	
 		     }
-		});
-
+		  });
 	}
 	
-	private void saut() {
-		lastUpdateTime=1;
-		gameLoop = new Timeline();
-		//Duration d = new Duration().withNanos(20);
-		//gameLoop.setCycleCount(Timeline.d);
-		timer= new AnimationTimer() {
-
+	public void handlerInventory() {
+		inventory.getInventory().addListener(new ListChangeListener< Item>() {
 			@Override
-			public void handle(long now) {
-				int nbrCycleGLEnd = gameLoop.getCycleCount() +5;
-				while(gameLoop.getCycleCount() != nbrCycleGLEnd) {
-					p.move(0, -20);
+			public void onChanged(ListChangeListener.Change<? extends Item> c) {
+					while(c.next()) {
+						int indice=c.getFrom();
+						inventoryBar.getChildren().add(indice-1, new ImageView(new Image(inventory.getInventory().get(indice).getItemURI())));
+					}
 				}
-				if(gameLoop.getCycleCount() == nbrCycleGLEnd) {
-					jump=false;
-				}
-			}
-		};
+			});
 	}
 
 	private void initAnimation() {
@@ -235,30 +238,45 @@ public class ControleurMap implements Initializable {
 							dx += 8;
 						    imgVi.setImage(new Image("file:src/img/perso-right.png"));
 						}
-						
+
 						if (west) {
 						    dx -= 8;
 						    imgVi.setImage(new Image("file:src/img/persoMod.png"));
 						}
-						int hauteurSaut = 128;
+
 						//Système de saut
-						if (jump) {
-							gameLoop.pause();
-							saut();
-							gameLoop.play();
-							jump = false;
+						if (compteurSaut==1) {
+							int timer = 2;
+							//if (!limiteSaut(16)) {
+								p.move(0, VITESSE_SAUT);
+								timer--;
+							//}
+							if(timer <= 0) {
+									timer = 2;
+									compteurSaut=0;
+							}
 						}
 						
 						//Pour gérer les colisions
 						handlerColision(dx, dy);
+						
 						//Pour gérer la gravité
 						handlerGravity(dx);
-					}
+						
 						//Pour gérer le scrolling
 						affichageMap();
+					} 
 				}
 		};
 	}
+	/*private boolean limiteSaut (int hauteurSaut) {
+		if (p.getY() {
+			return true;
+		}
+		else {
+			return false;
+		}
+	}*/
 	
 	private void handlerColision (int dx , int dy) {
 		if (!p.colision(dx, dy)) {
@@ -271,15 +289,19 @@ public class ControleurMap implements Initializable {
 			p.move(dx, 8);
 		}
 	}
-	
+
 	public void initialize(URL location, ResourceBundle resources) {
-		this.createMap();
-		this.createPerso();   
-		this.initAnimation();
-		this.airBlock=map.getBlock(0);
-		this.breakBlock();
-		this.gameLoop.play();
-		this.timer.start();
+		createMap();
+		createPerso();
+		initAnimation();
+		airBlock=map.getBlock(0);
+		breakBlock();
+		gameLoop.play();
+		timer.start();
+		paneVueJoueur.setMouseTransparent(true);
+		paneVueJoueur.setFocusTraversable(true);
+		inventoryBar.setMouseTransparent(false);
+		handlerInventory();
 		paneVueJoueur.setMouseTransparent(true);
 		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
 		    public void run() {
