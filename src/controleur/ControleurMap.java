@@ -246,6 +246,7 @@ public class ControleurMap implements Initializable {
 							gameLoop.pause();
 							saut();
 							gameLoop.play();
+							jump = false;
 						}
 						
 						//Pour gérer les colisions
