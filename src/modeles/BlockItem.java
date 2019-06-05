@@ -1,5 +1,7 @@
 package modeles;
 
+import java.util.ArrayList;
+
 public class BlockItem extends Item{
 	
 	public BlockItem(String id) { 
@@ -11,6 +13,11 @@ public class BlockItem extends Item{
 	@Override
 	public String getItemURI() {
 		return new Block(this.getId(),0).getuRI();
+	}
+	@Override
+	public ArrayList<Item> ressourcesNeeded() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

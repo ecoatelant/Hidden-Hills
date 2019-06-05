@@ -7,13 +7,6 @@ import javafx.collections.ObservableList;
 public abstract class Item {
 	private String id;
 	private int nb;	//Nombres d'utilisation
-	private ObservableList<Item> ressources;
-	
-	public Item(String id, int nb,ObservableList<Item> res) { 
-		this.id=id;
-		this.nb=nb;
-		this.ressources = res;
-	}
 	
 	public Item(String id, int nb) { 
 		this.id=id;
@@ -40,14 +33,16 @@ public abstract class Item {
 		this.nb++;
 	}
 	
-	public boolean ressourcesPresentes(ObservableList<Item> inv) {
+	public abstract ArrayList<Item> ressourcesNeeded();
+	
+	public boolean ressourcesPresentes(ObservableList<Item> inventory) {
 		boolean present = true;
 		int i = 0;
-		while(i < ressources.size() && present==true) {
+		while(i < ressourcesNeeded().size() && present==true) {
 			present=false;
 			int j = 0;
-			while(j < inv.size() && present==false) {
-				if(inv.get(j)==ressources.get(i)) {
+			while(j < inventory.size() && present==false) {
+				if(inventory.get(j)==ressourcesNeeded().get(i)) {
 					present=true;
 				}
 				j++;

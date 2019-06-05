@@ -1,13 +1,9 @@
 package modeles;
 
-import javafx.collections.ObservableList;
+import java.util.ArrayList;
 
-public class Tool extends Item{
+public abstract class Tool extends Item{
 	private int durability; //nombre d'utilisations
-	public Tool(String id, int durability,ObservableList<Item> res) {
-		super(id, 1,res);
-		this.durability=durability;
-	}
 	
 	public Tool(String id, int durability) {
 		super(id, 1);
@@ -22,6 +18,8 @@ public class Tool extends Item{
 	@Override
 	public String getItemURI() {
 		return null;
-	}	
+	}
+	
+	public abstract ArrayList<Item> ressourcesNeeded();
 	
 }

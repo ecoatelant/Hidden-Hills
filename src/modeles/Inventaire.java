@@ -1,5 +1,7 @@
 package modeles;
 
+import java.util.ArrayList;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -36,9 +38,18 @@ public class Inventaire {
 	
 	public void crafting(Item craft) {
 		if(craft.ressourcesPresentes(this.inventory)) {
+			ArrayList<Item> itemToRM = craft.ressourcesNeeded();
+			for(int i = 0; i<itemToRM.size();i++) {
+				for(int j = 0; j<this.inventory.size();j++) {
+					if(this.inventory.get(j)==itemToRM.get(i)) {
+						this.inventory.remove(j);
+						itemToRM.remove(i);
+					}
+				}
+			}
 			inventory.add(craft);
-			//TO-DO: supprimer les ressources utilisés pour crafter
 		}
+		
 	}
 	
 }
