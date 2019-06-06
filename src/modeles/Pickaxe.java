@@ -6,7 +6,7 @@ import modeles.BlockItem;
 public class Pickaxe extends Tool {
 	
 	public Pickaxe() {
-		super("1",8);
+		super("3",8);
 	}
 	
 	@Override

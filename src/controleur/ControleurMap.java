@@ -4,6 +4,7 @@ package controleur;
 import modeles.Personnage;
 import modeles.Block;
 import modeles.BlockItem;
+import modeles.Craft;
 import modeles.Inventaire;
 import modeles.Item;
 import modeles.Map;
@@ -12,6 +13,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import java.net.URL;
@@ -49,6 +51,9 @@ public class ControleurMap implements Initializable {
     @FXML
     private Pane fixedPane;
     
+    @FXML
+    private GridPane paneCraft;
+    
     private long lastUpdateTime;
     
     private Block airBlock;
@@ -66,6 +71,8 @@ public class ControleurMap implements Initializable {
     private Inventaire inventory;
     
     private static int VITESSE_SAUT = -16;
+    
+    private Craft crafting;
     
   //Déclaration du PP
     private Personnage p;
@@ -120,6 +127,26 @@ public class ControleurMap implements Initializable {
 		        }
 		       
 		}
+	}
+	
+	private void createCraft() {
+		this.crafting = new Craft();
+		int column = 0;
+		int row = 0;
+		for(int i = 0;i<crafting.sizeTableCraft();i++) {
+			if(column == 3) {
+				row++;
+				column = 0;
+			}
+			Image img = new Image(this.crafting.getItem(i).getItemURI());
+			ImageView imgV = new ImageView(img);
+			imgV.setFitHeight(80);
+			imgV.setFitWidth(80);
+			//paneCraft.getChildren().add(imgV);
+			paneCraft.add(imgV, column, row);
+			column++;
+		}
+		paneCraft.setFocusTraversable(true);
 	}
 	
 	public boolean bordWidth(int x) {
@@ -296,6 +323,7 @@ public class ControleurMap implements Initializable {
 	public void initialize(URL location, ResourceBundle resources) {
 		createMap();
 		createPerso();
+		createCraft();
 		initAnimation();
 		airBlock=map.getBlock(0);
 		breakBlock();

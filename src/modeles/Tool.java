@@ -4,10 +4,24 @@ import java.util.ArrayList;
 
 public abstract class Tool extends Item{
 	private int durability; //nombre d'utilisations
+	private String uRI;
 	
 	public Tool(String id, int durability) {
-		super(id, 1);
+		super(id, 1,1);
 		this.durability=durability;
+		String chemin = "file:src/img/";
+		switch (id) {
+        case "1":
+            chemin += "axe.png";
+            break; 
+        case "2":
+            chemin += "ironsword.png";
+            break;
+        case "3":
+            chemin += "pickaxe.png";
+            break;
+		}
+		this.uRI=chemin;
 	}
 
 	@Override
@@ -17,7 +31,7 @@ public abstract class Tool extends Item{
 
 	@Override
 	public String getItemURI() {
-		return null;
+		return this.uRI;
 	}
 	
 	public abstract ArrayList<Item> ressourcesNeeded();
