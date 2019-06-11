@@ -8,6 +8,7 @@ import modeles.Craft;
 import modeles.Inventaire;
 import modeles.Item;
 import modeles.Map;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
@@ -16,6 +17,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.shape.Rectangle;
+
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.animation.AnimationTimer;
@@ -87,7 +90,7 @@ public class ControleurMap implements Initializable {
           	case S:  
           		south=true;
           		break;
-          	case Q:           		
+          	case Q:
           		west=true;
           		break;
           	case D:  
@@ -147,6 +150,24 @@ public class ControleurMap implements Initializable {
 			column++;
 		}
 		paneCraft.setFocusTraversable(true);
+	}
+	
+	public void crafting() {
+		paneCraft.setOnMouseClicked(new EventHandler<MouseEvent>() {
+			@Override
+		     public void handle(MouseEvent click) {
+				Node clickNode = click.getPickResult().getIntersectedNode();
+					Integer colIndex = GridPane.getColumnIndex(clickNode);
+			        Integer rowIndex = GridPane.getRowIndex(clickNode);
+					Item itemSelect = crafting.getItem(rowIndex*3+colIndex);
+					System.out.println("Inventaire:");
+					for(int i = 0; i < inventory.getInventory().size(); i++) {
+						System.out.println(inventory.getInventory().get(i).getId());
+					}
+					crafting.crafting(inventory.getInventory(),itemSelect);
+					System.out.println(itemSelect);
+		     }
+		  });
 	}
 	
 	public boolean bordWidth(int x) {
@@ -327,6 +348,7 @@ public class ControleurMap implements Initializable {
 		initAnimation();
 		airBlock=map.getBlock(0);
 		breakBlock();
+		crafting();
 		gameLoop.play();
 		timer.start();
 		paneVueJoueur.setMouseTransparent(true);
