@@ -5,7 +5,6 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -19,12 +18,10 @@ public class Map {
 	private int mapheight;
 	
 	//Déclaration des tailles sur la map
-	private static String nomFichierMap = "Map";
+	private static String nomFichierMap = "Map2";
     public final static int NBR_BLOC_LARGEUR = 60;
     public final static int NBR_BLOC_HAUTEUR = 40;
-    public final static int NBR_BLOC_LARGEUR_VISION = 60;
-    public final static int NBR_BLOC_HAUTEUR_VISION = 40;
-    final static int TAILLE_BLOC = 32; //Les blocs sont carrés en 32 pixels
+    public final static int TAILLE_BLOC = 32; //Les blocs sont carrés en 32 pixels
     											//Constructeur//
 	public Map () {
 		this.map = FXCollections.observableArrayList(
@@ -77,6 +74,7 @@ public class Map {
             int i = 1;
             for (Block t : map) {
                 changements = changements + t.getId()+",";
+                if (i%this.mapwidth ==0)
                 if (i%this.mapwidth==0)
                     changements = changements + "\n";
                 i++;

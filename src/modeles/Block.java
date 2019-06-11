@@ -29,6 +29,7 @@ public class Block {
                 chemin = chemin + "dirt.jpg";
                 break;
             case "6":
+            	chemin = chemin + "charcoal.png";
                 break; 
             case "14":
                 chemin = chemin + "titanium.png";
@@ -54,7 +55,7 @@ public class Block {
         }
         this.uRI = chemin;
     }
-
+	
 	//Getter
 	public String getId () {
 		return this.id;

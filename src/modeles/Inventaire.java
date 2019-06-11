@@ -1,5 +1,7 @@
 package modeles;
 
+import java.util.ArrayList;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -31,6 +33,7 @@ public class Inventaire {
 
 	}
 	public boolean isHandEmpty() {
-		return this.handIsEmpty;
+		return this.handIsEmpty;		
 	}
+	
 }
