@@ -58,7 +58,7 @@ public class Map {
 	public void sauvegarderMap() {
         try {
         	//Dans le fichier csv, on place les ids des blocks et on place une virgule.
-            File file = new File("src/test.csv");
+            File file = new File("src/"+nomFichierMap+".csv");
             FileWriter fileWriter = new FileWriter(file, false);
             String changements = "";
             int i = 1;
